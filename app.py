@@ -1,7 +1,7 @@
 import os
 from flask import Flask, render_template, redirect, url_for, request
 import db
-#big ooof
+#mögliche Datenbankänderung
 app = Flask(__name__)
 
 app.config.from_mapping(
