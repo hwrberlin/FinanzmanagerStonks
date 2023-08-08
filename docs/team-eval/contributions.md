@@ -26,7 +26,7 @@ Contributions
 : Jane's second contribution
 : ...
 
-## [Joe Doe]
+## [Leo Pilgram]
 
 Contributions
 : Joe's first contribution
