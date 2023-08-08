@@ -15,7 +15,7 @@ app.teardown_appcontext(db.close_db_con) #TEST
 def index():
 	return redirect(url_for('get_lists'))
 
-@app.route('/lists/')
+@app.route('/Login') # zukünftiger login
 def get_lists():
 	sql_query = 'SELECT * from list ORDER BY name'
 	db_con = db.get_db_con()
