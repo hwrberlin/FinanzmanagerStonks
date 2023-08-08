@@ -1,7 +1,7 @@
 import os
 from flask import Flask, render_template, redirect, url_for, request
 import db
-#MOIN Kek oooff
+#big ooof
 app = Flask(__name__)
 
 app.config.from_mapping(
