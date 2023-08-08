@@ -1,7 +1,11 @@
 import os
 from flask import Flask, render_template, redirect, url_for, request
 import db
+<<<<<<< HEAD
 #mögliche Datenbankänderung
+=======
+#small ooof
+>>>>>>> 33dfbb2 (small ooof)
 app = Flask(__name__)
 
 app.config.from_mapping(
