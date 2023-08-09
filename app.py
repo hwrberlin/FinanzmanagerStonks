@@ -26,7 +26,9 @@ def login():
 
         if user and check_password_hash(user['password'], password):
             session['user_id'] = user['id']
-            return redirect(url_for('index'))
+          #  return redirect(url_for('index'))
+            flash('erfolgreicher login')
+
         else:
             flash('Incorrect username or password')
 
