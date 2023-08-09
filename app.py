@@ -15,7 +15,7 @@ app.cli.add_command(db.init_db)
 app.teardown_appcontext(db.close_db_con) # Test
 
 
-@app.route('/login')
+@app.route('/')
 def login():
     username = request.args.get('username')
     password = request.args.get('password')
@@ -59,9 +59,9 @@ def logout():
     session.pop('user_id', None)
     return redirect(url_for('login'))
 
-@app.route('/')
-def index():
-    return render_template('index.html')
+#@app.route('/')
+#def index():
+#    return render_template('login.html')
 
 
 
