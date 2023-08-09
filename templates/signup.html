@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Signup</title>
+</head>
+<body>
+    <h2>Signup</h2>
+
+    <!-- Jinja2 Schleife für Liste der flash-Nachrichten-->
+    {% if get_flashed_messages() %}
+        <ul class="flashes">
+        {% for message in get_flashed_messages() %}
+            <li>{{ message }}</li>
+        {% endfor %}
+        </ul>
+    {% endif %}
+
+    <form action="{{ url_for('signup') }}" method="get">
+        <div>
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username" required>
+        </div>
+        <div>
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" required>
+        </div>
+        <div>
+            <input type="submit" value="Signup">
+        </div>
+    </form>
+    <p>Hast du schon ein Konto? <a href="{{ url_for('login') }}">Login</a></p>
+</body>
+</html>
