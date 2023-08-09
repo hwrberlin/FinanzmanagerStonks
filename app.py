@@ -34,27 +34,34 @@ def login():
 
     return render_template('login.html') # HTML muss noch gecodet werden
 
-@app.route('/signup')
+@app.route('/signup', methods=['GET', 'POST'])
 def signup():
-    username = request.args.get('username')
-    password = request.args.get('password')
+    if request.method == 'POST':
+        username = request.form.get('username')
+        password = request.form.get('password')
+        confirm_password = request.form.get('confirm_password')
 
-    if username and password:
-        db_con = db.get_db_con()
+        if not password == confirm_password:
+            flash('Die Passwörter stimmen nicht überein!')
+            return render_template('signup.html')
 
-        # Gibt es den Benutzer bereits?
-        user = db_con.execute('SELECT id FROM user WHERE username = ?', (username,)).fetchone() # Mit Platzhalter, um SQL-Injektion zu verhindern
-        if user:
-            flash('Benutzername schon vergeben!')
-        else:
-            db_con.execute(
-                'INSERT INTO user (username, password) VALUES (?, ?)',
-                (username, generate_password_hash(password))
-            )
-            db_con.commit()
-            return redirect(url_for('login'))
+        if username and password:
+            db_con = db.get_db_con()
 
-    return render_template('signup.html') # HTML muss noch gecodet werden
+            # Gibt es den Benutzer bereits?
+            user = db_con.execute('SELECT id FROM user WHERE username = ?', (username,)).fetchone() 
+            if user:
+                flash('Benutzername schon vergeben!')
+            else:
+                db_con.execute(
+                    'INSERT INTO user (username, password) VALUES (?, ?)',
+                    (username, generate_password_hash(password))
+                )
+                db_con.commit()
+                return redirect(url_for('login'))
+
+    return render_template('signup.html')
+
 
 @app.route('/logout')
 def logout():

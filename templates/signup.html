@@ -15,7 +15,7 @@
         </ul>
     {% endif %}
 
-    <form action="{{ url_for('signup') }}" method="get">
+    <form action="{{ url_for('signup') }}" method="post">
         <div>
             <label for="username">Username:</label>
             <input type="text" id="username" name="username" required>
@@ -24,6 +24,11 @@
             <label for="password">Password:</label>
             <input type="password" id="password" name="password" required>
         </div>
+        <div>
+            <label for="confirm_password">Passwort bestätigen:</label>
+            <input type="password" id="confirm_password" name="confirm_password" required>
+        </div>
+        
         <div>
             <input type="submit" value="Signup">
         </div>
