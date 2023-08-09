@@ -36,7 +36,7 @@ def login():
         else:
             flash('Incorrect username or password')
 
-    return render_template('login.html') # HTML muss noch gecodet werden
+    return render_template('login_signup.html') # HTML muss noch gecodet werden
 
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
