@@ -33,7 +33,43 @@ def login():
         else:
             flash('Incorrect username or password')
 
-    return render_template('login.html')
+    return render_template('login.html') # HTML muss noch gecodet werden
+
+@app.route('/signup')
+def signup():
+    username = request.args.get('username')
+    password = request.args.get('password')
+
+    if username and password:
+        db_con = db.get_db_con()
+
+        # Gibt es den Benutzer bereits?
+        user = db_con.execute('SELECT id FROM user WHERE username = ?', (username,)).fetchone() # Mit Platzhalter, um SQL-Injektion zu verhindern
+        if user:
+            flash('Benutzername schon vergeben!')
+        else:
+            db_con.execute(
+                'INSERT INTO user (username, password) VALUES (?, ?)',
+                (username, generate_password_hash(password))
+            )
+            db_con.commit()
+            return redirect(url_for('login'))
+
+    return render_template('signup.html') # HTML muss noch gecodet werden
+
+@app.route('/logout')
+def logout():
+    session.pop('user_id', None)
+    return redirect(url_for('login'))
+
+@app.route('/')
+def index():
+    return render_template('index.html')
+
+
+
+
+
 
 # app.run()
 
