@@ -30,7 +30,7 @@ def login():
 
         if user and check_password_hash(user['password'], password):
             session['user_id'] = user['id']
-          #  return redirect(url_for('index'))
+            return redirect(url_for('homepage'))
             flash('erfolgreicher login')
 
         else:
@@ -88,6 +88,10 @@ def get_users():
         output.append(user_data)
 
     return {'users': output}
+
+@app.route('/homepage')
+def homepage():
+    return render_template('homepage.html')
 
 #@app.route('/')
 #def index():
