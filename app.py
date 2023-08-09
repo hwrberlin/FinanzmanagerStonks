@@ -2,13 +2,13 @@ import os
 import os
 from flask import Flask, render_template, redirect, url_for, request, flash, session
 import db
- Datenbank
+
 from werkzeug.security import generate_password_hash, check_password_hash
 
 #mögliche Datenbankänderung
 
 # ooof
- main
+ 
 app = Flask(__name__)
 
 app.config.from_mapping(
