@@ -72,6 +72,23 @@ def logout():
     session.pop('user_id', None)
     return redirect(url_for('login'))
 
+@app.route('/get_users')
+def get_users():
+    db_con = db.get_db_con()
+    users = db_con.execute('SELECT * FROM user').fetchall()
+
+    output = []
+    for user in users:
+        user_data = {
+            'id': user['id'],
+            'username': user['username'],
+            'password': user['password'],
+            'role': user['role']
+        }
+        output.append(user_data)
+
+    return {'users': output}
+
 #@app.route('/')
 #def index():
 #    return render_template('login.html')
