@@ -14,9 +14,6 @@ app.config.from_mapping(
 app.cli.add_command(db.init_db)
 app.teardown_appcontext(db.close_db_con) # Test
 
-@app.route('/')
-def index():
-	return redirect(url_for('get_lists'))
 
 @app.route('/login')
 def login():
