@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Transaktion hinzufügen</title>
+</head>
+<body>
+    <h1>Transaktion hinzufügen</h1>
+    <form action="{{ url_for('addTransaction') }}" method="post">
+        <label for="amount">Betrag:</label>
+        <input type="number" step="0.01" name="amount" required><br>
+        <label for="description">Beschreibung:</label>
+        <textarea name="description" required></textarea><br>
+        <input type="submit" value="Hinzufügen">
+    </form>
+    <a href="{{ url_for('homepage') }}">Zurück zur Startseite</a>
+</body>
+</html>
