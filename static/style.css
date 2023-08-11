@@ -4,14 +4,14 @@
 	font-family: sans-serif;
 }
 a {
-	color: #35a;
+	color: var(--link-color);
 	text-decoration: none;
 }
 
 .background{
 	height: 100%;
 	width: 100%;
-	background-color: rgb(204, 240, 255);
+	background-color: var(--background-color);
 	background-position: center;
 	background-size: cover;
 	position: absolute;
@@ -21,7 +21,7 @@ a {
 	height: 480px;
 	position: relative;
 	margin: 6% auto;
-	background: #fff;
+	background: var(--form-box-background);
 	padding: 5px;
 	overflow: hidden;
 }
@@ -29,7 +29,7 @@ a {
 	width: 220px;
 	margin: 35px auto;
 	position: relative;
-	box-shadow: 0 0 20px 9px #1a71b97e;
+	box-shadow: 0 0 20px 9px var(--primary-blue-transparent);
 	border-radius: 30px;
 }
 /*toggle-btn Klasse: Elemente der Klasse toggle-btn sind transparent und haben keinen Hintergrund*/
@@ -48,7 +48,7 @@ a {
 	position: absolute;
 	width: 110px;
 	height: 100%;
-	background: linear-gradient(to right, #2a81e49a,#b8dcff98);
+	background: linear-gradient(to right, var(--primary-blue-transparent), var(--light-blue-transparent));
 	border-radius: 30px;
 	transition: .5s;
 }
@@ -65,7 +65,7 @@ a {
 	border-left: 0;
 	border-top: 0;
 	border-right: 0;
-	border-bottom: 1px solid #999;
+	border-bottom: 1px solid var(--input-border-color);
 	outline: none;
 	background: transparent;
 }
@@ -75,7 +75,7 @@ a {
 	cursor: pointer;
 	display: block;
 	margin: auto;
-	background: linear-gradient(to right, #2a81e49a,#b8dcff98);
+	background: linear-gradient(to right, var(--primary-blue-transparent), var(--light-blue-transparent));
 	border: 0;
 	outline: none;
 	border-radius: 30px;
@@ -85,4 +85,25 @@ a {
 }
 #register{
 	left: 450px;
+}
+.flash-messages {
+    margin: 20px 0;
+    padding: 10px;
+    background-color: #fff;
+	opacity: 1;
+    transition: opacity 1s ease-out;
+	text-align: center;
+}
+.flash-messages.fade-out {
+    opacity: 0;
+}
+.flashes {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+.flashes li {
+    margin-bottom: 5px;
+    color: var(--flash-text-color);
 }
