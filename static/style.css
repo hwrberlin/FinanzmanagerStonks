@@ -30,6 +30,7 @@ a {
 	box-shadow: 0 0 20px 9px #1a71b97e;
 	border-radius: 30px;
 }
+/*toggle-btn Klasse: Elemente der Klasse toggle-btn sind transparent und haben keinen Hintergrund*/
 .toggle-btn{
 	padding: 10px 30px;
 	cursor: pointer;
@@ -38,6 +39,7 @@ a {
 	outline: none;
 	position: relative;
 }
+/*rechteckiges Element, das die Farbe für die Schaltflächen darstellt.*/
 #btn{
 	top: 0;
 	left: 0;
