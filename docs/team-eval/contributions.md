@@ -24,7 +24,8 @@ nav_order: 4
 Contributions
 : Datenbank und Login Peer-Programming
 : Homepage basic design first steps
-: Next step: add transaction page
+: add transaction page
+: Next step: finish transaction panel
 
 ## [Leo Pilgram]
 
@@ -32,3 +33,4 @@ Contributions
 : Datenbank und Login Peer-Programming
 : CSS Login first steps
 : Next step: finish Login CSS and general CSS styles for reusing
+: Next next step: start BudgetPanel
