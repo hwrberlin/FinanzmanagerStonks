@@ -1,3 +1,4 @@
+DROP TABLE IF EXISTS transactions;
 
 CREATE TABLE user (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -11,6 +12,6 @@ CREATE TABLE transactions (
     user_id INTEGER NOT NULL,
     amount REAL NOT NULL,
     description TEXT,
+    timestamp DATETIME DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY(user_id) REFERENCES user(id)
 );
-

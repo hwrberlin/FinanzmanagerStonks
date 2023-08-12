@@ -135,7 +135,23 @@ def get_transactions():
         }
         output.append(transaction_data)
 
-    return {'transactions': output}
+    return {'transactions': output} 
+
+@app.route('/TransactionOverview')
+def TransactionOverview():
+    user_id = session.get('user_id')
+
+    if user_id is None:
+        flash('Du musst eingeloggt sein, um deine Transaktionen anzusehen.')
+        return redirect(url_for('login'))
+
+    db_con = db.get_db_con()
+    transactions = db_con.execute(
+        'SELECT * FROM transactions WHERE user_id = ? ORDER BY timestamp DESC',
+        (user_id,)
+    ).fetchall()
+
+    return render_template('TransactionOverview.html', transactions=transactions)
 
 #@app.route('/')
 #def index():
