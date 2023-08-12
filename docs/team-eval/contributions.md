@@ -32,5 +32,8 @@ Contributions
 Contributions
 : Datenbank und Login Peer-Programming
 : CSS Login first steps
-: Next step: finish Login CSS and general CSS styles for reusing
-: Next next step: start BudgetPanel
+: finished Login CSS 
+: Added general CSS styles for reusing
+: Merged new Login Frontend
+: Next step: start BudgetPanel logik
+: Next next step: Start Homepage Frontend
