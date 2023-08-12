@@ -93,6 +93,66 @@ def get_users():
 def homepage():
     return render_template('homepage.html')
 
+@app.route('/addTransaction', methods=['GET', 'POST'])
+def addTransaction():
+
+    user_id = session.get('user_id')
+    print(f"Aktuelle Benutzer-ID aus der Session: {user_id}")
+
+    if 'user_id' not in session:
+        flash('Du musst eingeloggt sein, um Transaktionen hinzuzufügen.')
+        return redirect(url_for('login'))   # funktioniert irgendwie NOCH nicht, statdessen wird die eingabe einfach nicht gespeichert
+    
+    if request.method == 'POST':
+        user_id = session['user_id']
+        amount = request.form.get('amount')
+        description = request.form.get('description')
+
+        db_con = db.get_db_con()
+        db_con.execute(
+            'INSERT INTO transactions (user_id, amount, description) VALUES (?, ?, ?)',
+            (user_id, amount, description)
+        )
+        db_con.commit()
+        flash('Transaktion erfolgreich hinzugefügt.')  
+        return redirect(url_for('addTransaction')) 
+
+    return render_template('addTransaction.html')
+
+
+@app.route('/get_transactions')
+def get_transactions():
+    db_con = db.get_db_con()
+    transactions = db_con.execute('SELECT * FROM transactions').fetchall()
+
+    output = []
+    for transaction in transactions:
+        transaction_data = {
+            'id': transaction['id'],
+            'user_id': transaction['user_id'],
+            'amount': transaction['amount'],
+            'description': transaction['description']
+        }
+        output.append(transaction_data)
+
+    return {'transactions': output} 
+
+@app.route('/TransactionOverview')
+def TransactionOverview():
+    user_id = session.get('user_id')
+
+    if user_id is None:
+        flash('Du musst eingeloggt sein, um deine Transaktionen anzusehen.')
+        return redirect(url_for('login'))
+
+    db_con = db.get_db_con()
+    transactions = db_con.execute(
+        'SELECT * FROM transactions WHERE user_id = ? ORDER BY timestamp DESC',
+        (user_id,)
+    ).fetchall()
+
+    return render_template('TransactionOverview.html', transactions=transactions)
+
 #@app.route('/')
 #def index():
 #    return render_template('login.html')

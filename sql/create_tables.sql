@@ -1,3 +1,4 @@
+DROP TABLE IF EXISTS transactions;
 
 CREATE TABLE user (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -5,4 +6,12 @@ CREATE TABLE user (
     password TEXT NOT NULL,
     role TEXT NOT NULL DEFAULT 'user' CHECK(role IN ('admin', 'user'))
 );
-
+    
+CREATE TABLE transactions (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    user_id INTEGER NOT NULL,
+    amount REAL NOT NULL,
+    description TEXT,
+    timestamp DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY(user_id) REFERENCES user(id)
+);

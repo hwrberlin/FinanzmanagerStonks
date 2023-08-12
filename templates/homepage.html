@@ -6,15 +6,15 @@
 <body>
     <h2>Homepage</h2>
     
-    <form action="{{ url_for('logout') }}">
+    <form action="{{ url_for('addTransaction') }}">
         <button type="submit">Hinzufügen</button>
     </form>
-
+    
     <form action="{{ url_for('logout') }}">
         <button type="submit">Stats</button>
     </form>
 
-    <form action="{{ url_for('logout') }}">
+    <form action="{{ url_for('TransactionOverview') }}">
         <button type="submit">My Transactions</button>
     </form>
 
