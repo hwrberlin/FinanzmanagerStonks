@@ -18,7 +18,7 @@ app.config.from_mapping(
 app.cli.add_command(db.init_db)
 app.teardown_appcontext(db.close_db_con) # Test
 
-
+"""
 @app.route('/')
 def login():
     username = request.args.get('username')
@@ -36,36 +36,46 @@ def login():
         else:
             flash('Incorrect username or password')
 
-    return render_template('login.html') # HTML muss noch gecodet werden
-
-@app.route('/signup', methods=['GET', 'POST'])
-def signup():
+    return render_template('login_signup.html') # HTML muss noch gecodet werden
+"""
+@app.route('/', methods=['GET', 'POST'])
+def login():
     if request.method == 'POST':
+        action = request.form.get('action')
+
         username = request.form.get('username')
         password = request.form.get('password')
-        confirm_password = request.form.get('confirm_password')
+        db_con = db.get_db_con()
 
-        if not password == confirm_password:
-            flash('Die Passwörter stimmen nicht überein!')
-            return render_template('signup.html')
-
-        if username and password:
-            db_con = db.get_db_con()
-
-            # Gibt es den Benutzer bereits?
-            user = db_con.execute('SELECT id FROM user WHERE username = ?', (username,)).fetchone() 
-            if user:
-                flash('Benutzername schon vergeben!')
+        if action == 'login':
+            user = db_con.execute('SELECT * FROM user WHERE username = ?', (username,)).fetchone()
+            
+            if user and check_password_hash(user['password'], password):
+                session['user_id'] = user['id']
+                return redirect(url_for('homepage'))
             else:
-                db_con.execute(
-                    'INSERT INTO user (username, password) VALUES (?, ?)',
-                    (username, generate_password_hash(password))
-                )
-                db_con.commit()
-                return redirect(url_for('login'))
+                flash('Falscher Benutzername oder Passwort!')
 
-    return render_template('signup.html')
+        elif action == 'register':
+            confirm_password = request.form.get('confirm_password')
 
+            if not password == confirm_password:
+                flash('Die Passwörter stimmen nicht überein!')
+            else:
+                # Überprüfen, ob der Benutzer bereits existiert
+                existing_user = db_con.execute('SELECT id FROM user WHERE username = ?', (username,)).fetchone() 
+                if existing_user:
+                    flash('Benutzername schon vergeben!')
+                else:
+                    db_con.execute(
+                        'INSERT INTO user (username, password) VALUES (?, ?)',
+                        (username, generate_password_hash(password))
+                    )
+                    db_con.commit()
+                    flash('Erfolgreich registriert. Bitte anmelden.')
+                    return redirect(url_for('login'))
+
+    return render_template('login_signup.html')
 
 @app.route('/logout')
 def logout():

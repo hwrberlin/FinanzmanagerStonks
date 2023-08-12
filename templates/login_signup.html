@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Login</title>
+    <link rel="stylesheet" href="..\static\style.css">
+    <link rel="stylesheet" href="..\static\colors.css">
+</head>
+<body>
+    <div class="background">
+        <div class="form-box">
+            <div class="button-box">
+                <div id="btn"></div>
+                <button type="button" class="toggle-btn" onclick="login()">Log In</button>
+                <button type="button" class="toggle-btn" onclick="register()">Sign Up</button>
+            </div>
+            <div class="flash-messages">
+                {% with messages = get_flashed_messages() %}
+                    {% if messages %}
+                        <ul class="flashes">
+                            {% for message in messages %}
+                                <li>{{ message }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                {% endwith %}
+            </div>            
+            <form id="login" class="input-group" action="{{ url_for('login') }}" method="post">
+                <input type="text" class="input-field" name="username" placeholder="User Id" required>
+                <input type="password" class="input-field" name="password" placeholder="Enter Password" required>
+                <input type="hidden" name="action" value="login">
+                <button type="submit" class="submit-btn">Log in</button>
+            </form>
+            <form id="register" class="input-group" action="{{ url_for('login') }}" method="post">
+                <input type="text" class="input-field" name="username" placeholder="User Id" required>
+                <input type="password" class="input-field" name="password" placeholder="Enter Password" required>
+                <input type="password" class="input-field" name="confirm_password" placeholder="Repeat Password" required>
+                <input type="hidden" name="action" value="register">
+                <button type="submit" class="submit-btn">Register</button>
+            </form>
+        </div>
+    </div>
+    <script>
+        var x = document.getElementById("login");
+        var y = document.getElementById("register");
+        var z = document.getElementById("btn");
+        function register(){
+            x.style.left = "-400px";
+            y.style.left = "50px";
+            z.style.left = "110px";
+        }
+        function login(){
+            x.style.left = "50px";
+            y.style.left = "450px";
+            z.style.left = "0";
+        }
+        document.addEventListener("DOMContentLoaded", function() {
+            setTimeout(function() {
+                var flashes = document.querySelector('.flash-messages');
+                if (flashes) {
+                    flashes.classList.add('fade-out');
+                }
+            }, 3000);
+        });
+
+
+    </script>
+</body>
+</html>
