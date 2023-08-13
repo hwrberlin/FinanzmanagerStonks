@@ -17,3 +17,10 @@ CREATE TABLE transactions (
     timestamp DATETIME DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY(user_id) REFERENCES user(id)
 );
+
+CREATE TABLE budget (
+    user_id INTEGER PRIMARY KEY,
+    amount DECIMAL(10,2),
+    end_date DATE,
+    FOREIGN KEY(user_id) REFERENCES user(id)
+);

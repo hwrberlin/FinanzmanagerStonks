@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Budget verwalten</title>
+</head>
+<body>
+    <h2>Budget verwalten</h2>
+
+    <!-- Budget anzeigen -->
+    {% if budget %}
+    <h3>Aktuelles Budget</h3>
+    <p>Betrag: {{ budget.amount }}€</p>
+    <p>Bis zum Datum: {{ budget.end_date }}</p>
+    {% else %}
+    <p>Kein Budget gesetzt.</p>
+    {% endif %}
+
+    <!-- Budget setzen/aktualisieren -->
+    <h3>Budget setzen/aktualisieren</h3>
+    <form action="{{ url_for('budget') }}" method="post">
+        <label for="budget_amount">Betrag:</label>
+        <input type="number" step="0.01" name="budget_amount" required>
+        
+        <label for="budget_end_date">Bis zum Datum:</label>
+        <input type="date" name="budget_end_date" required>
+        
+        <input type="submit" value="Budget setzen/aktualisieren">
+    </form>
+    
+    <a href="{{ url_for('homepage') }}">Zurück zur Homepage</a>
+</body>
+</html>

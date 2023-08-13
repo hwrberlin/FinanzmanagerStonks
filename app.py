@@ -209,3 +209,28 @@ def get_list_todos(list_id):
 def run_insert_sample():
 	db.insert_sample()
 	return 'Database flushed and populated with some sample data.'
+
+@app.route('/budget', methods=['GET', 'POST'])
+def budget():
+    if 'user_id' not in session:
+        flash('Du musst eingeloggt sein, um dein Budget zu verwalten.')
+        return redirect(url_for('login'))
+
+    user_id = session['user_id']
+    db_con = db.get_db_con()
+    budget = db_con.execute('SELECT * FROM budget WHERE user_id = ?', (user_id,)).fetchone()
+
+    if request.method == 'POST':
+        amount = request.form.get('budget_amount')
+        end_date = request.form.get('budget_end_date')
+
+        if budget:
+            db_con.execute('UPDATE budget SET amount = ?, end_date = ? WHERE user_id = ?', (amount, end_date, user_id))
+        else:
+            db_con.execute('INSERT INTO budget (user_id, amount, end_date) VALUES (?, ?, ?)', (user_id, amount, end_date))
+
+        db_con.commit()
+        flash('Budget erfolgreich aktualisiert.')
+        return redirect(url_for('budget'))
+
+    return render_template('budget.html', budget=budget)
