@@ -153,6 +153,46 @@ def TransactionOverview():
 
     return render_template('TransactionOverview.html', transactions=transactions)
 
+@app.route('/Steuerung')
+def manage_users():
+    # Admin ja oder nein
+    current_user_role = session.get('role')
+    if current_user_role != 'admin':
+        flash('Nur Administratoren dürfen Benutzer verwalten.')
+        return redirect(url_for('homepage'))
+
+    db_con = db.get_db_con()
+    users = db_con.execute('SELECT * FROM user').fetchall()
+    
+    return render_template('Steurung.html', users=users)
+
+@app.route('/deleteUser/<int:user_id>', methods=['POST'])
+def delete_user(user_id):
+    # Prüfe, ob der Benutzer in der Session ein Admin ist
+    current_user_id = session.get('user_id')
+    current_user_role = session.get('role')
+    if current_user_role != 'admin':
+        flash('Nur Administratoren dürfen Benutzer löschen.')
+        return redirect(url_for('homepage'))
+
+    db_con = db.get_db_con()
+    
+    if current_user_id == user_id:
+        flash('Du kannst dich selbst nicht löschen.')
+        return redirect(url_for('homepage'))
+
+    db_con.execute('DELETE FROM user WHERE id = ?', (user_id,))
+    db_con.commit()
+
+    flash('Benutzer erfolgreich gelöscht.')
+    # return redirect(url_for('homepage')) 
+
+
+
+
+
+
+
 #@app.route('/')
 #def index():
 #    return render_template('login.html')
