@@ -40,7 +40,7 @@ def login():
 """
 @app.route('/', methods=['GET', 'POST'])
 def login():
-        session.clear() # ausloggungsfunktion, falls man sich nicht ausloggt per knopf
+    session.clear() # ausloggungsfunktion, falls man sich nicht ausloggt per knopf
     if request.method == 'POST':
         action = request.form.get('action')
 
