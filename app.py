@@ -30,6 +30,7 @@ def login():
 
         if user and check_password_hash(user['password'], password):
             session['user_id'] = user['id']
+            session['user_role'] = user['role']
             return redirect(url_for('homepage'))
             flash('erfolgreicher login')
 
@@ -154,38 +155,44 @@ def TransactionOverview():
     return render_template('TransactionOverview.html', transactions=transactions)
 
 @app.route('/Steuerung')
-def manage_users():
+def Steuerung():
     # Admin ja oder nein
-    current_user_role = session.get('role')
+    current_user_role = session.get('user_role')
     if current_user_role != 'admin':
         flash('Nur Administratoren dürfen Benutzer verwalten.')
         return redirect(url_for('homepage'))
 
     db_con = db.get_db_con()
     users = db_con.execute('SELECT * FROM user').fetchall()
-    
-    return render_template('Steurung.html', users=users)
+    # hier werden alle user gespeichert, um es dann html anzeigen zu lassen
+    return render_template('Steuerung.html', users=users)
 
 @app.route('/deleteUser/<int:user_id>', methods=['POST'])
 def delete_user(user_id):
     # Prüfe, ob der Benutzer in der Session ein Admin ist
     current_user_id = session.get('user_id')
-    current_user_role = session.get('role')
+    current_user_role = session.get('user_role')
     if current_user_role != 'admin':
         flash('Nur Administratoren dürfen Benutzer löschen.')
-        return redirect(url_for('homepage'))
+        return redirect(url_for('Steuerung'))
 
     db_con = db.get_db_con()
-    
+        
+    user_to_delete = db_con.execute('SELECT * FROM user WHERE id = ?', (user_id,)).fetchone()
+
     if current_user_id == user_id:
         flash('Du kannst dich selbst nicht löschen.')
-        return redirect(url_for('homepage'))
-
+        return redirect(url_for('Steuerung'))
+    elif user_to_delete['role'] == 'admin':
+        flash('Admins können andere Admins nicht löschen.')
+        return redirect(url_for('Steuerung'))
+    
+    db_con.execute('DELETE FROM transactions WHERE user_id = ?', (user_id,))
     db_con.execute('DELETE FROM user WHERE id = ?', (user_id,))
     db_con.commit()
 
     flash('Benutzer erfolgreich gelöscht.')
-    # return redirect(url_for('homepage')) 
+    return redirect(url_for('Steuerung')) 
 
 
 
