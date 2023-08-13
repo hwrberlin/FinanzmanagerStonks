@@ -218,19 +218,17 @@ def budget():
 
     user_id = session['user_id']
     db_con = db.get_db_con()
-    budget = db_con.execute('SELECT * FROM budget WHERE user_id = ?', (user_id,)).fetchone()
+    budgets = db_con.execute('SELECT * FROM budget WHERE user_id = ?', (user_id,)).fetchall()
 
     if request.method == 'POST':
+        name = request.form.get('budget_name')
         amount = request.form.get('budget_amount')
         end_date = request.form.get('budget_end_date')
 
-        if budget:
-            db_con.execute('UPDATE budget SET amount = ?, end_date = ? WHERE user_id = ?', (amount, end_date, user_id))
-        else:
-            db_con.execute('INSERT INTO budget (user_id, amount, end_date) VALUES (?, ?, ?)', (user_id, amount, end_date))
-
+        db_con.execute('INSERT INTO budget (user_id, name, amount, end_date) VALUES (?, ?, ?, ?)', (user_id, name, amount, end_date))
         db_con.commit()
-        flash('Budget erfolgreich aktualisiert.')
+
+        flash(f'Budget "{name}" erfolgreich erstellt.')
         return redirect(url_for('budget'))
 
-    return render_template('budget.html', budget=budget)
+    return render_template('budget.html', budgets=budgets)

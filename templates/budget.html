@@ -6,25 +6,33 @@
 <body>
     <h2>Budget verwalten</h2>
 
-    <!-- Budget anzeigen -->
-    {% if budget %}
-    <h3>Aktuelles Budget</h3>
-    <p>Betrag: {{ budget.amount }}€</p>
-    <p>Bis zum Datum: {{ budget.end_date }}</p>
+    <!-- Budgets anzeigen -->
+    {% if budgets %}
+    <h3>Aktuelle Budgets</h3>
+    <ul>
+        {% for budget in budgets %}
+        <li>
+            Name: {{ budget.name }} | Betrag: {{ budget.amount }}€ | Bis zum Datum: {{ budget.end_date }}
+        </li>
+        {% endfor %}
+    </ul>
     {% else %}
     <p>Kein Budget gesetzt.</p>
     {% endif %}
 
-    <!-- Budget setzen/aktualisieren -->
-    <h3>Budget setzen/aktualisieren</h3>
+    <!-- Neues Budget hinzufügen -->
+    <h3>Neues Budget hinzufügen</h3>
     <form action="{{ url_for('budget') }}" method="post">
+        <label for="budget_name">Budgetname:</label>
+        <input type="text" name="budget_name" required>
+        
         <label for="budget_amount">Betrag:</label>
         <input type="number" step="0.01" name="budget_amount" required>
         
         <label for="budget_end_date">Bis zum Datum:</label>
         <input type="date" name="budget_end_date" required>
         
-        <input type="submit" value="Budget setzen/aktualisieren">
+        <input type="submit" value="Budget hinzufügen">
     </form>
     
     <a href="{{ url_for('homepage') }}">Zurück zur Homepage</a>
