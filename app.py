@@ -16,6 +16,7 @@ app.config.from_mapping(
 	DATABASE=os.path.join(app.instance_path, 'finance_manager.sqlite')
 )
 app.cli.add_command(db.init_db)
+app.cli.add_command(db.insert_sample)
 app.teardown_appcontext(db.close_db_con) # Test
 
 """

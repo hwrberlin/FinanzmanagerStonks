@@ -32,7 +32,9 @@ def init_db():
 		db_con.executescript(f.read().decode('utf8'))
 	click.echo('Database has been initialized.')
 	
+@click.command('insert-sample')
 def insert_sample():
 	db_con = get_db_con()
 	with current_app.open_resource('sql/insert_sample.sql') as f:
 		db_con.executescript(f.read().decode('utf8'))
+	click.echo('Database sample inserted.')
