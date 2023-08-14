@@ -39,12 +39,10 @@
             <th>Datum</th>
         </tr>
         {% for transaction in transactions %}
-            <tr>
-                <td>{{ transaction['amount'] }}</td>
-                <td>{{ transaction['description'] }}</td>
-                <td>{{ transaction['timestamp'] }}</td>
-            </tr>
-        {% endfor %}
+<li class="{{ 'einnahme' if transaction.transaction_type == 'einnahme' else 'ausgabe' }}">
+    Betrag: {{ transaction.amount }} - Beschreibung: {{ transaction.description }} ({{ transaction.timestamp }})
+</li>
+{% endfor %}
     </table>
     <a href="{{ url_for('homepage') }}">Zurück zur Startseite</a>
 </body>

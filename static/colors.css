@@ -8,5 +8,9 @@
     --background-color: rgb(204, 240, 255);
     --flash-text-color: var(--primary-blue-transparent);
     --form-box-background: #fff;
+    --debit-color: #ffdddd;
+    --debit-text-color: #a00;
+    --credit-color: #ddffdd;
+    --credit-text-color: #0a0;
 }
 
