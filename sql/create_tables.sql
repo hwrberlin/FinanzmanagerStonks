@@ -15,7 +15,7 @@ CREATE TABLE transactions (
     amount REAL NOT NULL,
     description TEXT,
     timestamp DATETIME DEFAULT CURRENT_TIMESTAMP,
-    transaction_type TEXT NOT NULL DEFAULT 'ausgabe' CHECK(transaction_type IN ('einzahlung', 'ausgabe')),
+    transaction_type TEXT NOT NULL DEFAULT 'ausgabe' CHECK(transaction_type IN ('einnahme', 'ausgabe')),
     FOREIGN KEY(user_id) REFERENCES user(id)
 );
 

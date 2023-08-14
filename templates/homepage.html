@@ -4,8 +4,9 @@
     <title>Homepage</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="..\static\style.css">
     <link rel="stylesheet" href="..\static\colors.css">
+    <link rel="stylesheet" href="..\static\style.css">
+    
 </head>
 <body>
 
@@ -39,7 +40,7 @@
         {% if transactions %}
         <ul class="transaction-list">
             {% for transaction in transactions %}
-            <li class="{{ 'einzahlung' if transaction.type == 'einzahlung' else 'auszahlung' }}">
+            <li class="{{ 'einnahme' if transaction.transaction_type == 'einnahme' else 'ausgabe' }}">
                 Betrag: {{ transaction.amount }} - Beschreibung: {{ transaction.description }} ({{ transaction.timestamp }})
             </li>
             {% endfor %}

@@ -39,7 +39,7 @@
             <th>Datum</th>
         </tr>
         {% for transaction in transactions %}
-<li class="{{ 'einzahlung' if transaction.transaction_type == 'einzahlung' else 'ausgabe' }}">
+<li class="{{ 'einnahme' if transaction.transaction_type == 'einnahme' else 'ausgabe' }}">
     Betrag: {{ transaction.amount }} - Beschreibung: {{ transaction.description }} ({{ transaction.timestamp }})
 </li>
 {% endfor %}

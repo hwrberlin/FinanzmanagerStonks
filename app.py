@@ -158,7 +158,8 @@ def get_transactions():
             'id': transaction['id'],
             'user_id': transaction['user_id'],
             'amount': transaction['amount'],
-            'description': transaction['description']
+            'description': transaction['description'],
+            'transaction_type': transaction['transaction_type']
         }
         output.append(transaction_data)
 
