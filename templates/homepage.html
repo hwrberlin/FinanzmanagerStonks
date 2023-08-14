@@ -33,7 +33,21 @@
     
 
 <div class="row">
-    <div class="column" style="background-color:#aaa;">Column</div>
+    <div class="column" style="background-color:white;">
+        <h3>Letzte 5 Transaktionen</h3>
+        
+        {% if transactions %}
+        <ul class="transaction-list">
+            {% for transaction in transactions %}
+            <li class="{{ 'einzahlung' if transaction.type == 'einzahlung' else 'auszahlung' }}">
+                Betrag: {{ transaction.amount }} - Beschreibung: {{ transaction.description }} ({{ transaction.timestamp }})
+            </li>
+            {% endfor %}
+        </ul>
+        {% else %}
+        <p>Es sind noch keine Transaktionen vorhanden.</p>
+        {% endif %}
+    </div>
     <div class="column" style="background-color:#bbb;">Column</div>
     <div class="column" style="background-color:#ccc;">Column</div>
 </div>

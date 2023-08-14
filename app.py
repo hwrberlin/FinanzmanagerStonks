@@ -103,7 +103,20 @@ def get_users():
 
 @app.route('/homepage')
 def homepage():
-    return render_template('homepage.html')
+    user_id = session.get('user_id')
+
+    if user_id is None:
+        flash('Du musst eingeloggt sein, um die Homepage zu sehen.')
+        return redirect(url_for('login'))
+
+    db_con = db.get_db_con()
+    transactions = db_con.execute(
+        'SELECT * FROM transactions WHERE user_id = ? ORDER BY timestamp DESC LIMIT 5',
+        (user_id,)
+    ).fetchall()
+
+    return render_template('homepage.html', transactions=transactions)
+
 
 @app.route('/addTransaction', methods=['GET', 'POST'])
 def addTransaction():
@@ -119,15 +132,17 @@ def addTransaction():
         user_id = session['user_id']
         amount = request.form.get('amount')
         description = request.form.get('description')
+        transaction_type = request.form.get('transaction_type')
 
         db_con = db.get_db_con()
         db_con.execute(
-            'INSERT INTO transactions (user_id, amount, description) VALUES (?, ?, ?)',
-            (user_id, amount, description)
+            'INSERT INTO transactions (user_id, amount, description, transaction_type) VALUES (?, ?, ?, ?)',
+            (user_id, amount, description, transaction_type)
         )
         db_con.commit()
         flash('Transaktion erfolgreich hinzugefügt.')  
         return redirect(url_for('addTransaction')) 
+
 
     return render_template('addTransaction.html')
 

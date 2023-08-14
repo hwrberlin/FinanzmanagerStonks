@@ -178,3 +178,26 @@ body {
 h2{
 	margin-bottom: 20px;
 }
+ul.transaction-list {
+    list-style-type: none;
+    padding-left: 20px;
+}
+
+ul.transaction-list li {
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    font-size: 1.1em;
+    box-shadow: 2px 2px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Farbliche Unterscheidung */
+ul.transaction-list li.debit {
+    background-color: var(--debit-color, #ffdddd);  /* Standardmäßig ein leichtes Rot, falls --debit-color nicht definiert ist */
+    color: var(--debit-text-color, #a00);  /* Standardmäßig ein dunkles Rot */
+}
+
+ul.transaction-list li.credit {
+    background-color: var(--credit-color, #ddffdd);  /* Standardmäßig ein leichtes Grün */
+    color: var(--credit-text-color, #0a0);  /* Standardmäßig ein dunkles Grün */
+}
