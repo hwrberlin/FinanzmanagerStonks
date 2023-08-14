@@ -127,18 +127,19 @@ def addTransaction():
 
     if 'user_id' not in session:
         flash('Du musst eingeloggt sein, um Transaktionen hinzuzufügen.')
-        return redirect(url_for('login'))   # funktioniert irgendwie NOCH nicht, statdessen wird die eingabe einfach nicht gespeichert
+        return redirect(url_for('login'))   
     
     if request.method == 'POST':
         user_id = session['user_id']
         amount = request.form.get('amount')
         description = request.form.get('description')
         transaction_type = request.form.get('transaction_type')
+        category = request.form.get('category')  #toggle button (Finanzkategorie)
 
         db_con = db.get_db_con()
         db_con.execute(
-            'INSERT INTO transactions (user_id, amount, description, transaction_type) VALUES (?, ?, ?, ?)',
-            (user_id, amount, description, transaction_type)
+            'INSERT INTO transactions (user_id, amount, description, transaction_type, category) VALUES (?, ?, ?, ?, ?)',
+            (user_id, amount, description, transaction_type, category)  
         )
         db_con.commit()
         flash('Transaktion erfolgreich hinzugefügt.')  
@@ -160,7 +161,8 @@ def get_transactions():
             'user_id': transaction['user_id'],
             'amount': transaction['amount'],
             'description': transaction['description'],
-            'transaction_type': transaction['transaction_type']
+            'transaction_type': transaction['transaction_type'],
+            'category': transaction['category']
         }
         output.append(transaction_data)
 
