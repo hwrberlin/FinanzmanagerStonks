@@ -1,30 +1,46 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <title>Homepage</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="..\static\style.css">
+    <link rel="stylesheet" href="..\static\colors.css">
 </head>
 <body>
-    <h2>Homepage</h2>
+
+    <div class="header">
+        <h2>Finanz Manager</h2>
+        <div class="header-button-container">
+            <form action="{{ url_for('addTransaction') }}">
+                <button class="header-button" type="submit">Hinzufügen</button>
+            </form>
+            <form action="{{ url_for('logout') }}">
+                <button class="header-button" type="submit">Stats</button>
+            </form>
+            <form action="{{ url_for('TransactionOverview') }}">
+                <button class="header-button" type="submit">My Transactions</button>
+            </form>
+            <form action="{{ url_for('budget') }}">
+                <button class="header-button" type="submit">Budget</button>
+            </form>
+            <form action="{{ url_for('logout') }}">
+                <button class="header-button" type="submit">sign out</button>
+            </form>
+        </div>
+        
+    </div>
     
-    <form action="{{ url_for('addTransaction') }}">
-        <button type="submit">Hinzufügen</button>
-    </form>
-    
-    <form action="{{ url_for('logout') }}">
-        <button type="submit">Stats</button>
-    </form>
 
-    <form action="{{ url_for('TransactionOverview') }}">
-        <button type="submit">My Transactions</button>
-    </form>
+<div class="row">
+    <div class="column" style="background-color:#aaa;">Column</div>
+    <div class="column" style="background-color:#bbb;">Column</div>
+    <div class="column" style="background-color:#ccc;">Column</div>
+</div>
 
-    <form action="{{ url_for('budget') }}">
-        <button type="submit">Budget</button>
-    </form>
-
-    <form action="{{ url_for('logout') }}">
-        <button type="submit">sign out</button>
-    </form>
+<div class="footer">
+    <p>made by Stonks</p>
+</div>
 
 </body>
 </html>
