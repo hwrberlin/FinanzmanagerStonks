@@ -56,6 +56,13 @@
 <div class="footer">
     <p>made by Stonks</p>
 </div>
+<div class="header-button-container">
 
+    {% if user_role == 'admin' %} <!-- Überprüfen, ob der Benutzer ein Admin ist -->
+        <form action="{{ url_for('Steuerung') }}">
+            <button class="header-button" type="submit">Steuerung</button>
+        </form>
+    {% endif %}
+</div>
 </body>
 </html>
