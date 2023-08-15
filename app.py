@@ -163,7 +163,7 @@ def addTransaction():
 
         db_con.execute(
             'INSERT INTO transactions (user_id, amount, description, transaction_type, category, kontostand) VALUES (?, ?, ?, ?, ?, ?)',
-            (user_id, amount, description, transaction_type, category)  
+            (user_id, amount, description, transaction_type, category, new_balance)  
         )
         db_con.commit()
         flash('Transaktion erfolgreich hinzugefügt.')  
@@ -186,7 +186,8 @@ def get_transactions():
             'amount': transaction['amount'],
             'description': transaction['description'],
             'transaction_type': transaction['transaction_type'],
-            'category': transaction['category']
+            'category': transaction['category'],
+            'kontostand': transaction['kontostand']
         }
         output.append(transaction_data)
 
