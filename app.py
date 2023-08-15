@@ -128,18 +128,43 @@ def addTransaction():
 
     if 'user_id' not in session:
         flash('Du musst eingeloggt sein, um Transaktionen hinzuzufügen.')
-        return redirect(url_for('login'))   # funktioniert irgendwie NOCH nicht, statdessen wird die eingabe einfach nicht gespeichert
+        return redirect(url_for('login'))   
     
     if request.method == 'POST':
         user_id = session['user_id']
-        amount = request.form.get('amount')
+        amount = float(request.form.get('amount'))
+       
+
+        
         description = request.form.get('description')
         transaction_type = request.form.get('transaction_type')
+        category = request.form.get('category')  #toggle button (Finanzkategorie)
 
         db_con = db.get_db_con()
+
+# aktuellen Kontostand des Benutzers abrufen
+        current_balance = db_con.execute(
+            'SELECT kontostand FROM transactions WHERE user_id = ? ORDER BY id DESC LIMIT 1',
+            (user_id,)
+        ).fetchone()
+        
+        if current_balance is None:
+            current_balance = 0
+        else:
+            current_balance = current_balance['kontostand']
+
+ # Kontostand basierend auf der Transaktion aktualisieren
+        if transaction_type == 'einnahme':
+            new_balance = current_balance + amount
+        elif transaction_type == 'ausgabe':
+            new_balance = current_balance - amount
+        else:
+            flash('Ungültiger Transaktionstyp.')
+            return redirect(url_for('addTransaction'))
+
         db_con.execute(
-            'INSERT INTO transactions (user_id, amount, description, transaction_type) VALUES (?, ?, ?, ?)',
-            (user_id, amount, description, transaction_type)
+            'INSERT INTO transactions (user_id, amount, description, transaction_type, category, kontostand) VALUES (?, ?, ?, ?, ?, ?)',
+            (user_id, amount, description, transaction_type, category, new_balance)  
         )
         db_con.commit()
         flash('Transaktion erfolgreich hinzugefügt.')  
@@ -161,7 +186,9 @@ def get_transactions():
             'user_id': transaction['user_id'],
             'amount': transaction['amount'],
             'description': transaction['description'],
-            'transaction_type': transaction['transaction_type']
+            'transaction_type': transaction['transaction_type'],
+            'category': transaction['category'],
+            'kontostand': transaction['kontostand']
         }
         output.append(transaction_data)
 
