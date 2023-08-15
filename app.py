@@ -114,8 +114,9 @@ def homepage():
         'SELECT * FROM transactions WHERE user_id = ? ORDER BY timestamp DESC LIMIT 5',
         (user_id,)
     ).fetchall()
+    budgets = db_con.execute('SELECT * FROM budget WHERE user_id = ?', (user_id,)).fetchall()
 
-    return render_template('homepage.html', transactions=transactions)
+    return render_template('homepage.html', transactions=transactions, budgets = budgets)
 
 
 @app.route('/addTransaction', methods=['GET', 'POST'])

@@ -50,7 +50,23 @@
         {% endif %}
     </div>
     <div class="column" style="background-color:#bbb;">Column</div>
-    <div class="column" style="background-color:#ccc;">Column</div>
+    <div class="column" style="background-color:#ccc;">
+        <h2>Budget verwalten</h2>
+
+        <!-- Budgets anzeigen -->
+        {% if budgets %}
+        <h3>Aktuelle Budgets</h3>
+        <ul>
+            {% for budget in budgets %}
+            <li>
+                Name: {{ budget.name }} | Betrag: {{ budget.amount }}€ | Bis zum Datum: {{ budget.end_date }}
+            </li>
+            {% endfor %}
+        </ul>
+        {% else %}
+        <p>Kein Budget gesetzt.</p>
+        {% endif %}
+    </div>
 </div>
 
 <div class="footer">
