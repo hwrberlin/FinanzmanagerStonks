@@ -131,7 +131,10 @@ def addTransaction():
     
     if request.method == 'POST':
         user_id = session['user_id']
-        amount = request.form.get('amount')
+        amount = float(request.form.get('amount'))
+       
+
+        
         description = request.form.get('description')
         transaction_type = request.form.get('transaction_type')
         category = request.form.get('category')  #toggle button (Finanzkategorie)
@@ -144,7 +147,10 @@ def addTransaction():
             (user_id,)
         ).fetchone()
         
-        current_balance = current_balance['kontostand']
+        if current_balance is None:
+            current_balance = 0
+        else:
+            current_balance = current_balance['kontostand']
 
  # Kontostand basierend auf der Transaktion aktualisieren
         if transaction_type == 'einnahme':

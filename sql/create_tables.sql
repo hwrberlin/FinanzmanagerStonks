@@ -16,7 +16,7 @@ CREATE TABLE transactions (
     description TEXT,
     timestamp DATETIME DEFAULT CURRENT_TIMESTAMP,
     transaction_type TEXT NOT NULL DEFAULT 'ausgabe' CHECK(transaction_type IN ('einnahme', 'ausgabe')),
-    kontostand INTEGER NOT NULL DEFAULT 0,
+    kontostand FLOAT NOT NULL DEFAULT 0,
     FOREIGN KEY(user_id) REFERENCES user(id)
 );
 
