@@ -201,3 +201,4 @@ ul.transaction-list li.einnahme {
     background-color: var(--credit-color, #ddffdd);  /* Standardmäßig ein leichtes Grün */
     color: var(--credit-text-color, #0a0);  /* Standardmäßig ein dunkles Grün */
 }
+
