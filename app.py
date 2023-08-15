@@ -137,8 +137,26 @@ def addTransaction():
         category = request.form.get('category')  #toggle button (Finanzkategorie)
 
         db_con = db.get_db_con()
+
+# aktuellen Kontostand des Benutzers abrufen
+        current_balance = db_con.execute(
+            'SELECT kontostand FROM transactions WHERE user_id = ? ORDER BY id DESC LIMIT 1',
+            (user_id,)
+        ).fetchone()
+        
+        current_balance = current_balance['kontostand']
+
+ # Kontostand basierend auf der Transaktion aktualisieren
+        if transaction_type == 'einnahme':
+            new_balance = current_balance + amount
+        elif transaction_type == 'ausgabe':
+            new_balance = current_balance - amount
+        else:
+            flash('Ungültiger Transaktionstyp.')
+            return redirect(url_for('addTransaction'))
+
         db_con.execute(
-            'INSERT INTO transactions (user_id, amount, description, transaction_type, category) VALUES (?, ?, ?, ?, ?)',
+            'INSERT INTO transactions (user_id, amount, description, transaction_type, category, kontostand) VALUES (?, ?, ?, ?, ?, ?)',
             (user_id, amount, description, transaction_type, category)  
         )
         db_con.commit()
