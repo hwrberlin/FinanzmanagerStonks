@@ -116,7 +116,7 @@ def homepage():
         (user_id,)
     ).fetchall()
 
-    return render_template('homepage.html', transactions=transactions)
+    return render_template('homepage.html', transactions=transactions, user_role = user_role)
 
 
 @app.route('/addTransaction', methods=['GET', 'POST'])
