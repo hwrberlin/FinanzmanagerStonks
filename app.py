@@ -104,6 +104,8 @@ def get_users():
 
 @app.route('/homepage')
 def homepage():
+   
+
     user_id = session.get('user_id')
     user_role = session.get('user_role')  
 
@@ -117,7 +119,12 @@ def homepage():
         (user_id,)
     ).fetchall()
 
-    return render_template('homepage.html', transactions=transactions, user_role = user_role)
+    current_balance = db_con.execute(
+    'SELECT kontostand FROM transactions WHERE user_id = ? ORDER BY id DESC LIMIT 1',
+    (user_id,)
+    ).fetchone() # doppelt definiert, mal schauen ob das noch besser gemacht werden kann
+
+    return render_template('homepage.html', transactions=transactions, user_role = user_role, current_balance=current_balance)
 
 
 @app.route('/addTransaction', methods=['GET', 'POST'])
