@@ -116,10 +116,17 @@ def homepage():
         'SELECT * FROM transactions WHERE user_id = ? ORDER BY timestamp DESC LIMIT 5',
         (user_id,)
     ).fetchall()
+    
     budgets = db_con.execute('SELECT * FROM budget WHERE user_id = ?', (user_id,)).fetchall()
 
+    account_balance_data = db_con.execute(
+        'SELECT kontostand, timestamp FROM transactions WHERE user_id = ? ORDER BY timestamp ASC',
+        (user_id,)
+    ).fetchall()
+    dates = [entry['timestamp'] for entry in account_balance_data]
+    balances = [entry['kontostand'] for entry in account_balance_data]
 
-    return render_template('homepage.html', transactions=transactions, user_role = user_role, budgets = budgets)
+    return render_template('homepage.html', transactions=transactions, user_role=user_role, budgets=budgets, dates=dates, balances=balances)
 
 
 
