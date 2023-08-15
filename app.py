@@ -1,5 +1,4 @@
 import os
-import os
 from flask import Flask, render_template, redirect, url_for, request, flash, session
 import db
 
@@ -31,6 +30,7 @@ def login():
 
         if user and check_password_hash(user['password'], password):
             session['user_id'] = user['id']
+            session['user_role'] = user['role']
             return redirect(url_for('homepage'))
             flash('erfolgreicher login')
 
@@ -54,6 +54,7 @@ def login():
             
             if user and check_password_hash(user['password'], password):
                 session['user_id'] = user['id']
+                session['user_role'] = user['role']
                 return redirect(url_for('homepage'))
             else:
                 flash('Falscher Benutzername oder Passwort!')
@@ -104,6 +105,7 @@ def get_users():
 @app.route('/homepage')
 def homepage():
     user_id = session.get('user_id')
+    user_role = session.get('user_role')  
 
     if user_id is None:
         flash('Du musst eingeloggt sein, um die Homepage zu sehen.')
@@ -116,7 +118,9 @@ def homepage():
     ).fetchall()
     budgets = db_con.execute('SELECT * FROM budget WHERE user_id = ?', (user_id,)).fetchall()
 
-    return render_template('homepage.html', transactions=transactions, budgets = budgets)
+
+    return render_template('homepage.html', transactions=transactions, user_role = user_role, budgets = budgets)
+
 
 
 @app.route('/addTransaction', methods=['GET', 'POST'])
@@ -127,18 +131,43 @@ def addTransaction():
 
     if 'user_id' not in session:
         flash('Du musst eingeloggt sein, um Transaktionen hinzuzufügen.')
-        return redirect(url_for('login'))   # funktioniert irgendwie NOCH nicht, statdessen wird die eingabe einfach nicht gespeichert
+        return redirect(url_for('login'))   
     
     if request.method == 'POST':
         user_id = session['user_id']
-        amount = request.form.get('amount')
+        amount = float(request.form.get('amount'))
+       
+
+        
         description = request.form.get('description')
         transaction_type = request.form.get('transaction_type')
+        category = request.form.get('category')  #toggle button (Finanzkategorie)
 
         db_con = db.get_db_con()
+
+# aktuellen Kontostand des Benutzers abrufen
+        current_balance = db_con.execute(
+            'SELECT kontostand FROM transactions WHERE user_id = ? ORDER BY id DESC LIMIT 1',
+            (user_id,)
+        ).fetchone()
+        
+        if current_balance is None:
+            current_balance = 0
+        else:
+            current_balance = current_balance['kontostand']
+
+ # Kontostand basierend auf der Transaktion aktualisieren
+        if transaction_type == 'einnahme':
+            new_balance = current_balance + amount
+        elif transaction_type == 'ausgabe':
+            new_balance = current_balance - amount
+        else:
+            flash('Ungültiger Transaktionstyp.')
+            return redirect(url_for('addTransaction'))
+
         db_con.execute(
-            'INSERT INTO transactions (user_id, amount, description, transaction_type) VALUES (?, ?, ?, ?)',
-            (user_id, amount, description, transaction_type)
+            'INSERT INTO transactions (user_id, amount, description, transaction_type, category, kontostand) VALUES (?, ?, ?, ?, ?, ?)',
+            (user_id, amount, description, transaction_type, category, new_balance)  
         )
         db_con.commit()
         flash('Transaktion erfolgreich hinzugefügt.')  
@@ -160,7 +189,9 @@ def get_transactions():
             'user_id': transaction['user_id'],
             'amount': transaction['amount'],
             'description': transaction['description'],
-            'transaction_type': transaction['transaction_type']
+            'transaction_type': transaction['transaction_type'],
+            'category': transaction['category'],
+            'kontostand': transaction['kontostand']
         }
         output.append(transaction_data)
 
@@ -181,6 +212,52 @@ def TransactionOverview():
     ).fetchall()
 
     return render_template('TransactionOverview.html', transactions=transactions)
+
+@app.route('/Steuerung')
+def Steuerung():
+    # Admin ja oder nein
+    current_user_role = session.get('user_role')
+    if current_user_role != 'admin':
+        flash('Nur Administratoren dürfen Benutzer verwalten.')
+        return redirect(url_for('homepage'))
+
+    db_con = db.get_db_con()
+    users = db_con.execute('SELECT * FROM user').fetchall()
+    # hier werden alle user gespeichert, um es dann html anzeigen zu lassen
+    return render_template('Steuerung.html', users=users)
+
+@app.route('/deleteUser/<int:user_id>', methods=['POST'])
+def delete_user(user_id):
+    # Prüfe, ob der Benutzer in der Session ein Admin ist
+    current_user_id = session.get('user_id')
+    current_user_role = session.get('user_role')
+    if current_user_role != 'admin':
+        flash('Nur Administratoren dürfen Benutzer löschen.')
+        return redirect(url_for('Steuerung'))
+
+    db_con = db.get_db_con()
+        
+    user_to_delete = db_con.execute('SELECT * FROM user WHERE id = ?', (user_id,)).fetchone()
+
+    if current_user_id == user_id:
+        flash('Du kannst dich selbst nicht löschen.')
+        return redirect(url_for('Steuerung'))
+    elif user_to_delete['role'] == 'admin':
+        flash('Admins können andere Admins nicht löschen.')
+        return redirect(url_for('Steuerung'))
+    
+    db_con.execute('DELETE FROM transactions WHERE user_id = ?', (user_id,))
+    db_con.execute('DELETE FROM user WHERE id = ?', (user_id,))
+    db_con.commit()
+
+    flash('Benutzer erfolgreich gelöscht.')
+    return redirect(url_for('Steuerung')) 
+
+
+
+
+
+
 
 #@app.route('/')
 #def index():
