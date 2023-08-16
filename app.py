@@ -1,7 +1,6 @@
 import os
 from flask import Flask, render_template, redirect, url_for, request, flash, session
 import db
-
 from werkzeug.security import generate_password_hash, check_password_hash
 
 #mögliche Datenbankänderung
@@ -302,7 +301,53 @@ def delete_user(user_id):
     return redirect(url_for('Steuerung')) 
 
 
+@app.route('/edit_profile', methods=['GET', 'POST'])
+def edit_profile():
+    if 'user_id' not in session:
+        flash('Du musst eingeloggt sein, um dein Profil zu bearbeiten.')
+        return redirect(url_for('login'))
 
+    user_id = session['user_id']    
+    db_con = db.get_db_con()
+    user = db_con.execute('SELECT * FROM user WHERE id = ?', (user_id,)).fetchone()
+
+        # Überprüfen, ob der Benutzer sein Konto löschen möchte
+    if request.form.get('delete_request'):
+
+        db_con.execute('DELETE FROM user WHERE id = ?', (user_id,))
+        db_con.commit()
+        session.clear()  
+        flash('Benutzerkonto erfolgreich gelöscht.')
+        return redirect(url_for('login'))
+
+    if request.method == 'POST':
+        new_username = request.form.get('new_username')
+        password = request.form.get('password')
+
+        if not new_username:
+            flash('Neuer Benutzername muss eingegeben werden.')
+            return render_template('edit_profile.html', user=user)
+
+        if not check_password_hash(user['password'], password):
+            flash('Falsches Passwort!')
+            return render_template('edit_profile.html', user=user)
+
+        # Überprüfen, ob der neue Benutzername bereits existiert
+        existing_user = db_con.execute('SELECT id FROM user WHERE username = ?', (new_username,)).fetchone() 
+        if existing_user:
+            flash('Benutzername schon vergeben!')
+        else:
+            db_con.execute(
+                'UPDATE user SET username = ? WHERE id = ?',
+                (new_username, user_id)
+            )
+            db_con.commit()
+            flash('Benutzername erfolgreich aktualisiert!')
+            return redirect(url_for('homepage'))
+
+
+    
+    return render_template('edit_profile.html', user=user)
 
 
 
