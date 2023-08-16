@@ -38,13 +38,29 @@
             <th>Betrag</th>
             <th>Beschreibung</th>
             <th>Datum</th>
+            <th>Aktion</th>
         </tr>
         {% for transaction in transactions %}
 <li class="{{ 'einnahme' if transaction.transaction_type == 'einnahme' else 'ausgabe' }}">
-    Betrag: {{ transaction.amount }} - Beschreibung: {{ transaction.description }} ({{ transaction.timestamp }})
+    <td>{{ transaction.amount }}</td>
+    <td>{{ transaction.description }}</td>
+    <td>{{ transaction.timestamp }}</td>
+    <td>
+        <form action="{{ url_for('delete_transaction', id=transaction.id) }}" method="post">
+            <input type="submit" value="Löschen" onclick="return confirmDelete();">
+        </form>
+    </td>
+    
 </li>
 {% endfor %}
     </table>
     <a href="{{ url_for('homepage') }}">Zurück zur Startseite</a>
+
+
+    <script>
+        function confirmDelete() {
+            return confirm('Möchten Sie diese Transaktion wirklich löschen?');
+        }
+    </script> <!--   javascript für pop up nachricht zum löschen    -->
 </body>
 </html>

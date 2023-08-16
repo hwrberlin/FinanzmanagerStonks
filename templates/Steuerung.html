@@ -21,7 +21,7 @@
             <td>{{ user.role }}</td>
             <td>
                 <form action="{{ url_for('delete_user', user_id=user.id) }}" method="post">
-                    <button type="submit">Löschen</button>
+                    <button type="submit" onclick="return confirmDelete();">Löschen</button>
                 </form>
             </td>
         </tr>
@@ -39,5 +39,11 @@
   {% endwith %}
   <a href="{{ url_for('homepage') }}">Zurück zur Startseite</a>
 
+
+  <script>
+    function confirmDelete() {
+        return confirm('Möchten Sie diesen Benutzer wirklich löschen?');
+    }
+</script> <!--   javascript für pop up nachricht zum löschen    -->
 </body>
 </html>
