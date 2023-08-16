@@ -247,6 +247,9 @@ def delete_transaction(id):
     else:
         new_balance = current_balance + transaction_to_delete['amount']
 
+    if new_balance is None:
+        new_balance = 0
+        
     # Aktualisieren des Kontostandes in der Datenbank
     db_con.execute(
         'UPDATE transactions SET Kontostand = ? WHERE user_id = ?', (new_balance, user_id)
