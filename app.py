@@ -351,49 +351,6 @@ def edit_profile():
     return render_template('edit_profile.html', user=user)
 
 
-
-
-#@app.route('/')
-#def index():
-#    return render_template('login.html')
-
-
-
-
-
-
-# app.run()
-
-
-
-
-
-
-
-
-
-
-
-# Alt
-
-@app.route('/lists/<int:list_id>')
-def get_list_todos(list_id):
-	sql_query_1 = f'SELECT name FROM list WHERE id={list_id}'
-	sql_query_2 = (
-		'SELECT id, complete, description FROM todo '
-		f'JOIN todo_list ON todo_id=todo.id AND list_id={list_id} '
-		'ORDER BY id;'
-	)
-	db_con = db.get_db_con()
-	list = {}
-	list['name'] = db_con.execute(sql_query_1).fetchone()['name']
-	list['todos'] = db_con.execute(sql_query_2).fetchall()
-	if request.args.get('json') is not None:
-		list['todos'] = [dict(todo) for todo in list['todos']]
-		return list
-	else:
-		return render_template('todos.html', list=list)
-
 @app.route('/insert/sample')
 def run_insert_sample():
 	db.insert_sample()
