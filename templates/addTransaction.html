@@ -4,26 +4,24 @@
     <title>Transaktion hinzufügen</title>
     <link rel="stylesheet" href="..\static\colors.css">
     <link rel="stylesheet" href="..\static\style.css">
+    
 </head>
 <body>
 
-    {% with messages = get_flashed_messages() %}
-    {% if messages %}
-      <ul>
-        {% for message in messages %}
-          <li>{{ message }}</li>
-        {% endfor %}
-      </ul>
-    {% endif %}
-  {% endwith %}
 
     <h1>Transaktion hinzufügen</h1>
+    <fieldset>
+      <legend>Transaktionsdetails</legend>
     <form action="{{ url_for('addTransaction') }}" method="post">
         <select name="transaction_type">
           <option value="ausgabe">Ausgabe</option>
           <option value="einnahme">Einnahme</option>
-        </select>
+        </select><br><br>
+
+
         <label for="category">Kategorie:</label>
+        <br>
+
         <select name="category">
          <option value="sonstiges">Sonstiges</option>
          <option value="essen">Essen</option>
@@ -36,13 +34,33 @@
          <option value="versicherungen">Versicherung</option>
          <option value="sparen">Sparen</option>
         </select><br>
+        <br>
+
         <label for="amount">Betrag:</label>
         <input type="number" step="0.01" name="amount" required><br>
+        <br>
+
         <label for="description">Beschreibung:</label>
         <textarea name="description" required></textarea><br>
+      </fieldset>
+
         <input type="submit" value="Hinzufügen">
     </form>
+
+    
     <a href="{{ url_for('homepage') }}">Zurück zur Startseite</a>
+
+    <div class="messages">
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+      <ul>
+        {% for message in messages %}
+          <li>{{ message }}</li>
+        {% endfor %}
+      </ul>
+    {% endif %}
+  {% endwith %}
+</div>
 
 </body>
 </html>

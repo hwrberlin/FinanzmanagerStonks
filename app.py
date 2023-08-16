@@ -328,7 +328,8 @@ def edit_profile():
         new_username = request.form.get('new_username')
         password = request.form.get('password')
 
-        if not new_username:
+#doppelt gesichert 
+        if not new_username: 
             flash('Neuer Benutzername muss eingegeben werden.')
             return render_template('edit_profile.html', user=user)
 
