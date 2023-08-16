@@ -221,6 +221,46 @@ def TransactionOverview():
 
     return render_template('TransactionOverview.html', transactions=transactions)
 
+@app.route('/delete_transaction/<int:id>', methods=['POST'])
+def delete_transaction(id):
+    user_id = session.get('user_id')
+    if user_id is None:
+        flash('Du musst eingeloggt sein, um Transaktionen zu löschen.')
+        return redirect(url_for('login'))
+
+    db_con = db.get_db_con()
+    
+    transaction_to_delete = db_con.execute(
+        'SELECT * FROM transactions WHERE id = ? AND user_id = ?',
+        (id, user_id)
+    ).fetchone()
+
+    if transaction_to_delete is None:
+        flash('Transaktion nicht gefunden oder du hast nicht die Berechtigung, sie zu löschen.')
+        return redirect(url_for('TransactionOverview'))
+    
+     # Den Kontostand aus der Transaktion abrufen
+    current_balance = transaction_to_delete['Kontostand']
+
+    # Aktualisieren des Kontostandes basierend auf der Art der Transaktion
+    if transaction_to_delete['transaction_type'] == 'einnahme':
+        new_balance = current_balance - transaction_to_delete['amount']
+    else:
+        new_balance = current_balance + transaction_to_delete['amount']
+
+    # Aktualisieren des Kontostandes in der Datenbank
+    db_con.execute(
+        'UPDATE transactions SET Kontostand = ? WHERE user_id = ?', (new_balance, user_id)
+    )
+
+    # Lösche die Transaktion
+    db_con.execute('DELETE FROM transactions WHERE id = ?', (id,))
+    db_con.commit()
+
+    flash('Transaktion erfolgreich gelöscht!')
+    return redirect(url_for('TransactionOverview'))
+
+
 @app.route('/Steuerung')
 def Steuerung():
     # Admin ja oder nein
