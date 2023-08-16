@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Profil bearbeiten</title>
+</head>
+<body>
+
+<h2>Profil bearbeiten</h2>
+
+<!-- Formular für Benutzername ändern -->
+<form action="{{ url_for('edit_profile') }}" method="post">
+    <label for="new_username">Neuer Benutzername:</label>
+    <input type="text" id="new_username" name="new_username" value="{{ user.username }}" required>
+    <br>
+    <label for="password">Passwort zur Bestätigung:</label>
+    <input type="password" id="password" name="password" required>
+    <br>
+    <input type="submit" value="Benutzername ändern">
+</form>
+
+<br>
+<br>
+
+<!-- Formular für Konto löschen -->
+<form action="{{ url_for('edit_profile') }}" method="post" onsubmit="return confirm('Sind Sie sicher, dass Sie Ihr Konto löschen möchten?');">
+    <input type="hidden" name="delete_request" value="true"> <!-- es geht nicht mit dem normalen value warum auch immer-->
+    <input type="submit" value="Konto löschen">
+</form>
+
+
+</body>
+</html>
