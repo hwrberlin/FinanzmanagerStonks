@@ -2,58 +2,38 @@
 <html>
 <head>
     <title>Transaktionsübersicht</title>
-   <!-- <link rel="stylesheet" href="styles.css"> -->
+    <link rel="stylesheet" href="..\static\colors.css">
+    <link rel="stylesheet" href="..\static\style.css"> 
      <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }   
-        th, td {
-            padding: 8px;
-            text-align: left;
-            border-bottom: 1px solid #ddd;
-        }
-        tr:hover {
-            background-color: #f5f5f5;
-        }
+        
+       
+        
     </style> 
 </head>
 <body>
     <h1>Deine Transaktionen</h1>
-    {% with messages = get_flashed_messages() %}
-        {% if messages %}
-            <ul>
-                {% for message in messages %}
-                    <li>{{ message }}</li>
-                {% endfor %}
-            </ul>
-        {% endif %}
-    {% endwith %}
+   
     <table>
         <tr>
             <th>Betrag</th>
             <th>Beschreibung</th>
             <th>Datum</th>
-            <th>Aktion</th>
+            <th></th>
         </tr>
         {% for transaction in transactions %}
-<li class="{{ 'einnahme' if transaction.transaction_type == 'einnahme' else 'ausgabe' }}">
-    <td>{{ transaction.amount }}</td>
-    <td>{{ transaction.description }}</td>
-    <td>{{ transaction.timestamp }}</td>
-    <td>
-        <form action="{{ url_for('delete_transaction', id=transaction.id) }}" method="post">
-            <input type="submit" value="Löschen" onclick="return confirmDelete();">
-        </form>
-    </td>
-    
-</li>
-{% endfor %}
+        <tr class="{{ 'einnahme' if transaction.transaction_type == 'einnahme' else 'ausgabe' }}">
+            <td>{{ transaction.amount }}</td>
+            <td>{{ transaction.description }}</td>
+            <td>{{ transaction.timestamp }}</td>
+            <td>
+                <form action="{{ url_for('delete_transaction', id=transaction.id) }}" method="post">
+                    <input type="submit" value="Löschen" onclick="return confirmDelete();">
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
     </table>
+    
     <a href="{{ url_for('homepage') }}">Zurück zur Startseite</a>
 
 
@@ -62,5 +42,16 @@
             return confirm('Möchten Sie diese Transaktion wirklich löschen?');
         }
     </script> <!--   javascript für pop up nachricht zum löschen    -->
+
+{% with messages = get_flashed_messages() %}
+{% if messages %}
+    <ul>
+        {% for message in messages %}
+            <li>{{ message }}</li>
+        {% endfor %}
+    </ul>
+{% endif %}
+{% endwith %}
+
 </body>
 </html>
