@@ -115,6 +115,8 @@ a {
 
 body {
     background-color: var(--background-color);
+	font-family: Arial, sans-serif;
+	padding: 20px;
 }
 
 
@@ -177,10 +179,14 @@ body {
     gap: 10px; /* Add some space between the buttons */
 	margin-top: 20px;
 }
-h1{
-	margin-bottom: 20px;
-	text-align: center;
+h1 {
+    text-align: center;
+    padding: 20px 0;
+    background-color: #007BFF;
+    color: #fff;
+    margin-bottom: 20px;
 }
+
 h2{
 	margin-bottom: 20px;
 	text-align: center;
@@ -232,4 +238,67 @@ tr.ausgabe {
 tr.einnahme {
     background-color: var(--credit-color, #ddffdd);  /* Standardmäßig ein leichtes Grün */
     color: var(--credit-text-color, #0a0);  /* Standardmäßig ein dunkles Grün */
+}
+
+form {
+	margin-bottom: 20px;
+	padding: 20px;
+	border: 1px solid #eee;
+	border-radius: 5px;
+}
+
+label {
+	display: block;
+	margin-bottom: 10px;
+}
+
+input[type="text"], input[type="password"] {
+	width: 100%;
+	padding: 10px;
+	margin-bottom: 20px;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+}
+/* fürs erste für die buttons, die bei mir sind */
+input[type="submit"] {
+	padding: 10px 20px;
+	background-color: #007BFF;
+	color: #fff;
+	border: none;
+	border-radius: 5px;
+	cursor: pointer;
+}
+
+input[type="submit"]:hover {
+	background-color: #0056b3;
+}
+.messages ul {
+    list-style-type: none;
+    padding: 10px;
+    margin: 10px auto;
+    width: 80%;
+    background-color: #ffc107;
+    border-radius: 5px;
+    text-align: center;
+}
+
+/* für add transaction aufbau  */
+form fieldset {
+    border: none;
+    border-top: 1px solid #ddd;
+    margin-bottom: 15px;
+}
+
+form legend {
+    font-weight: bold;
+}
+/* für die textfelder und comboboxes  */
+form input[type="number"], 
+form select, 
+form textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
 }
