@@ -314,6 +314,7 @@ def edit_profile():
         # Überprüfen, ob der Benutzer sein Konto löschen möchte
     if request.form.get('delete_request'):
 
+        db_con.execute('DELETE FROM transactions WHERE user_id = ?', (user_id,))
         db_con.execute('DELETE FROM user WHERE id = ?', (user_id,))
         db_con.commit()
         session.clear()  
