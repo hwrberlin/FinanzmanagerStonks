@@ -31,9 +31,9 @@ Contributions
 
 Contributions
 : Datenbank und Login Peer-Programming
-: CSS Login first steps
-: finished Login CSS 
+: Login and Signup
+: Slide Animation for Login and Signup
 : Added general CSS styles for reusing
-: Merged new Login Frontend
-: Next step: start BudgetPanel logik
-: Next next step: Start Homepage Frontend
+: Budget tool added
+: Diagram tool added
+: Basic homepage design
