@@ -108,7 +108,7 @@ def homepage():
     user_id = session.get('user_id')
     user_role = session.get('user_role')  
 
-    if user_id is None:
+    if user_id is NULL:
         flash('Du musst eingeloggt sein, um die Homepage zu sehen.')
         return redirect(url_for('login'))
 
@@ -126,6 +126,11 @@ def homepage():
     (user_id,)
     ).fetchone() # doppelt definiert, mal schauen ob das noch besser gemacht werden kann
     
+    if current_balance is None:
+        current_balance = 0
+    else:
+        current_balance = current_balance['kontostand']
+
     account_balance_data = db_con.execute(
         'SELECT kontostand, timestamp FROM transactions WHERE user_id = ? ORDER BY timestamp ASC',
         (user_id,)
