@@ -7,7 +7,6 @@ nav_order: 1
 {: .label }
 
 # [finance overview]
-{: .no_toc }
 
 <details open markdown="block">
   <summary>
@@ -20,7 +19,5 @@ nav_order: 1
       - comprehensive overview
    
   </summary>
-  {: .text-delta }
-- TOC
-{:toc}
+
 </details>
