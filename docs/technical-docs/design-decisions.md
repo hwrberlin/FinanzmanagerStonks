@@ -144,7 +144,7 @@ Should we use color differentiation to represent various data types, such as inc
 - Slower Data Processing: Users might take longer to differentiate between data types.
 - Potential Confusion: Without colors, data might blend together.
 
-# 03: Central Placement of Core Actions
+# 05: Central Placement of Core Actions
 
 ## Problem Statement
 Users often struggle to find primary actions in an application, leading to frustration and extended navigation times.
