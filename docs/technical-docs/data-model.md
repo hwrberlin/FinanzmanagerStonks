@@ -10,7 +10,6 @@ nav_order: 3
 # Data Model
 
 ## 
-# Data Model
 
 ## User Table
 
