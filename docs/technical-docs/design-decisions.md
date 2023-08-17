@@ -14,7 +14,7 @@ nav_order: 5
 Users often struggle to find primary actions in an application, leading to frustration and extended navigation times.
 
 ## Decision
-Should we place core actions centrally and visibly on the homepage disperse them throughout the app and make many different links?
+Should we place core actions centrally and visibly on the homepage or disperse them throughout the app and make many different links?
 
 ## Regarded options
 
