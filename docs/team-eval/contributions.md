@@ -4,8 +4,7 @@ parent: Team Evaluation
 nav_order: 4
 ---
 
-[Jane Dane]
-{: .label }
+
 
 # [Summary of individual contributions]
 {: .no_toc }
@@ -22,10 +21,16 @@ nav_order: 4
 ## [Frederick Shagalov]
 
 Contributions
-: Datenbank und Login Peer-Programming
-: Homepage basic design first steps
-: add transaction page
-: Next step: finish transaction panel
+: Datenbank und Login Peer-Programming 
+: Homepage Grundaufbau
+: add transaction 
+: transaction overview + löschen später 
+: Steuerung
+: Kontostand
+: Datenbankerweiterungen
+: Profil bearbeiten
+: Design für unter anderem Steurung, edit profile
+: Design peer programming
 
 ## [Leo Pilgram]
 
