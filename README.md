@@ -1,11 +1,6 @@
-# Contents of this repository
 
-This repository contains some starter code for your semester project:
 
-+ The example code from the *"[intro to full-stack web development with Flask](https://hwrberlin.github.io/fswd/02-fswd-intro.html)"* session
-+ A basic structure for your documentation page
-
-## Steps to execute the example code
+## Steps to execute the finance manager from Stonks
 
 **Step 1:** set up and activate a [Python Virtual Environment](https://hwrberlin.github.io/fswd/01-python-vscode.html#32-use-the-python-virtual-environment-as-default-for-this-workspace).
 
