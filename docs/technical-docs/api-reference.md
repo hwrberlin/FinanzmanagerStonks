@@ -35,29 +35,29 @@ nav_order: 4
 
 ---
 
-## [Example, delete this section] Show to-do lists
+## login
 
-### `get_lists()`
+### `login()`
 
-**Route:** `/lists/`
+**Route:** `/`
 
-**Methods:** `GET`
+**Methods:** `GET, POST`
 
-**Purpose:** Show all to-do lists.
+**Purpose:** to sign in or log in.
 
 **Sample output:**
 
-![get_lists() sample](../assets/images/fswd-intro_00.png)
+![get_lists() sample]()
 
 ---
 
-### `get_list_todos(list_id)`
+### `homepage()`
 
-**Route:** `/lists/<int:list_id>`
+**Route:** `/homepage`
 
 **Methods:** `GET`
 
-**Purpose:** Retrieve all to-do items of to-do list with ID `list_id` from database and present to user.
+**Purpose:** .
 
 **Sample output:**
 
