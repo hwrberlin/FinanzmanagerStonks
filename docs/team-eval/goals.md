@@ -8,13 +8,10 @@ nav_order: 1
 {: .label }
 
 # [Goals achieved and missed]
-{: .no_toc }
+goals achieved:
+- funktionierendes fullstack programm
+- schönes ituitives design
+- Übung in Python, SQL, 
 
-<details open markdown="block">
-  <summary>
-    Table of contents
-  </summary>
-  {: .text-delta }
-- TOC
-{:toc}
-</details>
+
+goals missed:
