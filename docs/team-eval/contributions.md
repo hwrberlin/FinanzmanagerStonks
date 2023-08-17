@@ -5,7 +5,7 @@ nav_order: 4
 ---
 
 # Contributions
-
+we have worked together by using scrum methods. We had a meeting every day and discussed what we have acomplished, what has to be done and wich tasks we chose to do next.
 
 
 ## Frederick Shagalov
