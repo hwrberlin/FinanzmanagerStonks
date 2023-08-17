@@ -10,7 +10,6 @@
 (venv) C:\Users\me\projects\webapp> pip install -r requirements.txt
 ```
 
-> I created the file `📄requirements.txt` with this command: `pip freeze > requirements.txt`
 
 **Step 3:** initialize the app's SQLite database via `flask init-db`:
 
