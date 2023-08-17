@@ -86,7 +86,7 @@ For our targetaudience and value proposition we desided on having only few butto
 
 -----------------------------------------------------------------------------------------------
 
-# 03: Visible Feedback Mechanisms
+# 04: Visible Feedback Mechanisms
 
 ## Problem Statement
 Users often execute actions within an application without knowing if they were successful or what the result was. This can lead to confusion and frustration.
