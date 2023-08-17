@@ -62,7 +62,7 @@
         <tr class="{{ 'einnahme' if transaction.transaction_type == 'einnahme' else 'ausgabe' }}">
             <td>{{ transaction.amount }}</td>
             <td>{{ transaction.description }}</td>
-            <td>{{ transaction.timestamp }}</td>
+            <td>{{ transaction.date }}</td>
             <td>
                 <form action="{{ url_for('delete_transaction', id=transaction.id) }}" method="post" class="delete-form">
                     <input type="hidden" name="next_url" value="{{ url_for('homepage') }}">

@@ -24,7 +24,7 @@
         <tr class="{{ 'einnahme' if transaction.transaction_type == 'einnahme' else 'ausgabe' }}">
             <td>{{ transaction.amount }}</td>
             <td>{{ transaction.description }}</td>
-            <td>{{ transaction.timestamp }}</td>
+            <td>{{ transaction.date }}</td>
             <td>
                 <form action="{{ url_for('delete_transaction', id=transaction.id, next_url=url_for('TransactionOverview')) }}" method="post">
                     <input type="submit" value="Löschen" onclick="return confirmDelete();">

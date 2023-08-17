@@ -114,7 +114,7 @@ def homepage():
 
     db_con = db.get_db_con()
     transactions = db_con.execute(
-        'SELECT * FROM transactions WHERE user_id = ? ORDER BY timestamp DESC LIMIT 5',
+        'SELECT id, user_id, amount, description, DATE(timestamp) as date, transaction_type, category, kontostand FROM transactions WHERE user_id = ? ORDER BY timestamp DESC LIMIT 5',
         (user_id,)
     ).fetchall()
     
@@ -229,7 +229,7 @@ def TransactionOverview():
 
     db_con = db.get_db_con()
     transactions = db_con.execute(
-        'SELECT * FROM transactions WHERE user_id = ? ORDER BY timestamp DESC',
+        'SELECT id, user_id, amount, description, DATE(timestamp) as date, transaction_type, category, kontostand FROM transactions WHERE user_id = ? ORDER BY timestamp DESC',
         (user_id,)
     ).fetchall()
 
