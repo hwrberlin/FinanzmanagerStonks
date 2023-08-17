@@ -15,3 +15,4 @@ goals achieved:
 
 goals missed:
 - no goals missed
+- the scale could have been even bigger by suggesting investment plans and so on
