@@ -121,13 +121,14 @@ body {
 
 
 .header {
-    background:transparent;
+    background: transparent;
     padding: 20px;
     text-align: center;
     font-size: 35px;
     display: flex;
     flex-direction: column;
     align-items: center;
+    position: relative;
 }
 
 .column {
@@ -173,9 +174,25 @@ body {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    gap: 10px; /* Add some space between the buttons */
-	margin-top: 20px;
+    gap: 10px;
+    margin-top: 20px;
 }
+.signout-form {
+    position: absolute;
+    right: 20px;
+    top: 20px;
+}
+
+.signout-button {
+    padding: 10px 30px;
+    cursor: pointer;
+    background: linear-gradient(to right, var(--primary-blue-transparent), var(--light-blue-transparent));
+    border: 0;
+    outline: none;
+    border-radius: 30px;
+    color: black;
+}
+
 h1 {
     text-align: center;
     padding: 20px 0;
@@ -300,4 +317,27 @@ form textarea {
     border-radius: 4px;
     font-size: 16px;
 
+}
+.budget-header {
+    display: flex;
+    justify-content: center;
+    position: relative;
+}
+
+.add-budget-btn {
+    position: absolute;
+    right: 20px;
+	top: 0;
+    font-size: 24px;
+    padding: 10px 20px;
+    border: none;
+    background: linear-gradient(to right, var(--primary-blue-transparent), var(--light-blue-transparent));
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.2s;
+}
+
+
+.add-budget-btn:hover {
+    background-color: var(--link-color);
 }

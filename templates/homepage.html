@@ -13,57 +13,83 @@
     <div class="header">
         <h2>Finanz Manager</h2>
         <h3>Dein Kontostand: {{ current_balance['kontostand'] }} €</h3>
-
+    
         <div class="header-button-container">
-            <form action="{{ url_for('addTransaction') }}">
-                <button class="header-button" type="submit">Hinzufügen</button>
-            </form>
             <form action="{{ url_for('logout') }}">
                 <button class="header-button" type="submit">Stats</button>
             </form>
-            <form action="{{ url_for('TransactionOverview') }}">
-                <button class="header-button" type="submit">My Transactions</button>
-            </form>
-            <form action="{{ url_for('budget') }}">
-                <button class="header-button" type="submit">Budget</button>
+                        <form action="{{ url_for('edit_profile') }}">
+                <button class="header-button" type="submit">Profil bearbeiten</button>
             </form>
             <form action="{{ url_for('logout') }}">
                 <button class="header-button" type="submit">sign out</button>
             </form>
-            <form action="{{ url_for('edit_profile') }}">
-                <button class="header-button" type="submit">Profil bearbeiten</button>
-            </form>
         </div>
+    
         
     </div>
+    
     
 
 <div class="row">
     <div class="column" style="background-color:white;">
-        <h3>Letzte 5 Transaktionen</h3>
-        
+        <div class="budget-header">
+            <h2>Transaktionen</h2>
+            <form action="{{ url_for('addTransaction') }}">
+                <button class="add-budget-btn" type="submit">+</button>
+            </form>
+        </div>
         {% if transactions %}
-        <ul class="transaction-list">
+        <table>
+            <tr>
+                <th>Betrag</th>
+                <th>Beschreibung</th>
+                <th>Datum</th>
+                <th></th>
+            </tr>
             {% for transaction in transactions %}
-            <li class="{{ 'einnahme' if transaction.transaction_type == 'einnahme' else 'ausgabe' }}">
-                Betrag: {{ transaction.amount }} - Beschreibung: {{ transaction.description }} ({{ transaction.timestamp }})
-            </li>
+                {% if loop.index <= 5 %}
+                    <tr class="{{ 'einnahme' if transaction.transaction_type == 'einnahme' else 'ausgabe' }}">
+                        <td>{{ transaction.amount }}</td>
+                        <td>{{ transaction.description }}</td>
+                        <td>{{ transaction.timestamp }}</td>
+                        <td>
+                            <form action="{{ url_for('delete_transaction', id=transaction.id) }}" method="post">
+                                <input type="submit" value="Löschen" onclick="return confirmDelete();">
+                            </form>
+                        </td>
+                    </tr>
+                {% endif %}
             {% endfor %}
-        </ul>
+        </table>
         {% else %}
         <p>Es sind noch keine Transaktionen vorhanden.</p>
         {% endif %}
+        
+        <div class="header-button-container">
+            <form action="{{ url_for('TransactionOverview') }}">
+                <button class="header-button" type="submit">alle anzeigen</button>
+            </form>
+        </div>
     </div>
     
+    
+    
     <div class="column" style="background-color: white;">
-        <h3>Kontostandverlauf</h3>
-        <div style="width: 100%; height: 100%;">
+        <h2>Kontostandverlauf</h2>
+        <div style="width: 100%; height: 90%;">
             <canvas id="myChart" style="width: 100%; height: 100%;"></canvas>
         </div>
     </div>
     
     <div class="column" style="background-color:white;">
-        <h2>Budgets</h2>
+
+        <div class="budget-header">
+            <h2>Budgets</h2>
+            <form action="{{ url_for('budget') }}">
+                <button class="add-budget-btn" type="submit">+</button>
+            </form>
+        </div>
 
         <!-- Budgets anzeigen -->
         {% if budgets %}
