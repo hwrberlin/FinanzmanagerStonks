@@ -3,6 +3,8 @@
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Benutzer verwalten</title>
+    <link rel="stylesheet" href="..\static\colors.css">
+    <link rel="stylesheet" href="..\static\style.css">
 </head>
 <body>
     <h1>Benutzer verwalten</h1>
@@ -12,7 +14,7 @@
             <th>ID</th>
             <th>Benutzername</th>
             <th>Rolle</th>
-            <th>Aktion</th>
+            <th></th>
         </tr>
         {% for user in users %}
         <tr>
@@ -21,7 +23,7 @@
             <td>{{ user.role }}</td>
             <td>
                 <form action="{{ url_for('delete_user', user_id=user.id) }}" method="post">
-                    <button type="submit">Löschen</button>
+                    <button type="submit" onclick="return confirmDelete();">Löschen</button>
                 </form>
             </td>
         </tr>
@@ -39,5 +41,11 @@
   {% endwith %}
   <a href="{{ url_for('homepage') }}">Zurück zur Startseite</a>
 
+
+  <script>
+    function confirmDelete() {
+        return confirm('Möchten Sie diesen Benutzer wirklich löschen?');
+    }
+</script> <!--   javascript für pop up nachricht zum löschen    -->
 </body>
 </html>

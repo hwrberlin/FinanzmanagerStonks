@@ -12,6 +12,8 @@
 
     <div class="header">
         <h2>Finanz Manager</h2>
+        <h3>Dein Kontostand: {{ current_balance['kontostand'] }} €</h3>
+
         <div class="header-button-container">
             <form action="{{ url_for('addTransaction') }}">
                 <button class="header-button" type="submit">Hinzufügen</button>
@@ -27,6 +29,9 @@
             </form>
             <form action="{{ url_for('logout') }}">
                 <button class="header-button" type="submit">sign out</button>
+            </form>
+            <form action="{{ url_for('edit_profile') }}">
+                <button class="header-button" type="submit">Profil bearbeiten</button>
             </form>
         </div>
         
