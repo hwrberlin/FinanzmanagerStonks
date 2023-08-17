@@ -108,7 +108,7 @@ def homepage():
     user_id = session.get('user_id')
     user_role = session.get('user_role')  
 
-    if user_id is NULL:
+    if user_id is None:
         flash('Du musst eingeloggt sein, um die Homepage zu sehen.')
         return redirect(url_for('login'))
 
