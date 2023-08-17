@@ -232,21 +232,27 @@ ul.transaction-list li.einnahme {
 }
 
 table {
-	width: 100%;
-	border-collapse: collapse;
-}   
+    width: 100%;
+    border-collapse: collapse;
+}
+
 th, td {
-	padding: 10px;
-    margin-bottom: 10px;
+    padding: 3px 10px;  
     border-radius: 5px;
-    font-size: 1.1em;
+    font-size: 1em;  
+    line-height: 1.2;  
     box-shadow: 2px 2px 12px rgba(0, 0, 0, 0.1);
 }
+
 tr {
-	background-color: #f5f5f5;
+    background-color: #f5f5f5;
 }
+
+
+
 /* Farbliche Unterscheidung */
 tr.ausgabe {
+
     background-color: var(--debit-color, #ffdddd);  /* Standardmäßig ein leichtes Rot, falls --debit-color nicht definiert ist */
     color: var(--debit-text-color, #a00);  /* Standardmäßig ein dunkles Rot */
 }
