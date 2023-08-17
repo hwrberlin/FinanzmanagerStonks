@@ -48,7 +48,7 @@ A lot of apps have a too many buttons to click. The user has to go through all t
 
 ## Decision
 
-Do we want to have a lot of buttons or few buttons?
+Do we want to have a lot of buttons or few buttons straight at the content?
 
 ## Regarded options
 
@@ -82,7 +82,7 @@ Do we want to have a lot of buttons or few buttons?
 
 ### Conclusion
 
-For our targetaudience and value proposition we desided on having only few buttons to ensure a clean design and simplified user experience.
+For our targetaudience and value proposition we desided on having only few buttons to ensure a clean design and simplified user experience. We emphasize small additions of buttons like an add sign at the source content to have the bigger view or function to click on.
 
 -----------------------------------------------------------------------------------------------
 
@@ -121,7 +121,7 @@ Should we provide visible feedback for every significant user action or keep fee
 Users often struggle to quickly distinguish between different types of transactions or data in financial applications.
 
 ## Decision
-Should we use color differentiation to represent various data types, such as income and expenses?
+Should we use color differentiation to represent various data types, such as income and expenses? Or rather stay to labels.
 
 ## Regarded options
 
@@ -135,41 +135,4 @@ Should we use color differentiation to represent various data types, such as inc
 - Colorblind Issues: Users with color vision deficiencies might struggle.
 - Overuse: Too many colors can make the design chaotic.
 
-### No Color Differentiation
-#### Pros
-- Uniform Design: Consistent look without the distraction of multiple colors.
-- No Colorblind Issues: Won't have to worry about certain users misinterpreting colors.
-
-#### Cons
-- Slower Data Processing: Users might take longer to differentiate between data types.
-- Potential Confusion: Without colors, data might blend together.
-
-# 05: Central Placement of Core Actions
-
-## Problem Statement
-Users often struggle to find primary actions in an application, leading to frustration and extended navigation times.
-
-## Decision
-Should we place core actions centrally and visibly or disperse them throughout the app?
-
-## Regarded options
-
-### Central Placement
-#### Pros
-- Immediate Access: Users can quickly locate and use primary features.
-- Intuitive Design: Central placement aligns with users' expectations for crucial actions.
-- Efficient Navigation: Reduces the time users spend searching for features.
-
-#### Cons
-- Potentially Reduces Space: Might take up prime screen real estate.
-- Overemphasis: Not all centrally placed features might be used frequently.
-
-### Dispersed Placement
-#### Pros
-- Balanced Screen: Allows for a more distributed design.
-- Feature Highlighting: Can highlight lesser-known features by placing them more centrally.
-
-#### Cons
-- Difficult Navigation: Users might struggle to find essential features.
-- Reduced Efficiency: Might increase the time taken to execute core actions.
 
