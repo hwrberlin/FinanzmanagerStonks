@@ -46,41 +46,41 @@ Should we place core actions centrally and visibly on the homepageor disperse th
 
 A lot of apps have a too many buttons to click. The user has to go through all the buttons to find the right one. This makes the experience more stressfull than it has to be.
 
-# Decision
+## Decision
 
 Do we want to have a lot of buttons or few buttons?
 
 ## Regarded options
 
-# Many Buttons
+### Many Buttons
 
-## Pros
+#### Pros
 
 1. **More Features Accessible:** Having many buttons allows you to offer a greater number of features and options to the user.
 2. **Direct Navigation:** Users can directly access different sections or functions of the app without going through multiple steps.
 3. **Reduced Need for Menus:** You can reduce the need for complex menus or hidden features since most options are immediately visible.
 
-## Cons
+#### Cons
 
 1. **Visual Clutter:** Too many buttons can create visual clutter, making the app look busy and less appealing.
 2. **Overwhelming:** A large number of buttons may be overwhelming for users, especially those who are not tech-savvy.
 3. **Usability Issues:** Smaller buttons or closely spaced buttons can lead to accidental taps and difficulty in targeting the desired button, especially on smaller screens.
 
-# Few Buttons
+### Few Buttons
 
-## Pros
+#### Pros
 
 1. **Clean Design:** Fewer buttons result in a cleaner and more minimalist design, making the app visually appealing.
 2. **Simplified User Experience:** With fewer buttons, the user experience is simplified, and users can focus on the most important tasks.
 3. **Reduced Decision Fatigue:** Fewer choices mean less cognitive load for users, leading to reduced decision fatigue.
 
-## Cons
+#### Cons
 
 1. **Hidden Features:** Fewer buttons often mean that certain features are hidden in menus, making them harder to discover.
 2. **More Steps Required:** Users may need to go through more steps to access certain features or options.
 3. **Limited Functionality:** Having fewer buttons may limit the functionality that can be readily accessed on the main screen.
 
-# Conclusion
+### Conclusion
 
 For our targetaudience and value proposition we desided on having only few buttons to ensure a clean design and simplified user experience.
 
