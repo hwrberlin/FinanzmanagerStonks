@@ -232,6 +232,7 @@ def TransactionOverview():
 
 @app.route('/delete_transaction/<int:id>', methods=['POST'])
 def delete_transaction(id):
+    next_url = request.form.get('next_url')
     user_id = session.get('user_id')
     if user_id is None:
         flash('Du musst eingeloggt sein, um Transaktionen zu löschen.')
@@ -270,7 +271,12 @@ def delete_transaction(id):
     db_con.commit()
 
     flash('Transaktion erfolgreich gelöscht!')
-    return redirect(url_for('TransactionOverview'))
+
+    if next_url:
+        return redirect(next_url)
+    else:
+        return redirect(url_for('TransactionOverview'))
+
 
 
 @app.route('/Steuerung')

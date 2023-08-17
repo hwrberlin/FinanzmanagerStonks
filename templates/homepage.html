@@ -25,7 +25,17 @@
                 <button class="header-button" type="submit">sign out</button>
             </form>
         </div>
-    
+        <div class="messages">
+            {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                    <ul>
+                        {% for message in messages %}
+                            <li>{{ message }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+                {% endwith %}
+        </div>
         
     </div>
     
@@ -55,8 +65,10 @@
                         <td>{{ transaction.timestamp }}</td>
                         <td>
                             <form action="{{ url_for('delete_transaction', id=transaction.id) }}" method="post">
+                                <input type="hidden" name="next_url" value="{{ url_for('homepage') }}">
                                 <input type="submit" value="Löschen" onclick="return confirmDelete();">
                             </form>
+                            
                         </td>
                     </tr>
                 {% endif %}
@@ -142,5 +154,10 @@
         }
     });
 </script>
+<script>
+    function confirmDelete() {
+        return confirm('Möchten Sie diese Transaktion wirklich löschen?');
+    }
+</script> <!--   javascript für pop up nachricht zum löschen    -->
 </body>
 </html>
