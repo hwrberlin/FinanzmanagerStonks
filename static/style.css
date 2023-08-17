@@ -237,14 +237,16 @@ table {
 }   
 th, td {
 	padding: 10px;
-    margin-bottom: 10px;
     border-radius: 5px;
     font-size: 1.1em;
     box-shadow: 2px 2px 12px rgba(0, 0, 0, 0.1);
+    line-height: 1.5; /* Kontrolliert die Höhe der Zeilen */
 }
 tr {
 	background-color: #f5f5f5;
+    line-height: 1.5; /* Kontrolliert die Höhe der Zeilen */
 }
+
 /* Farbliche Unterscheidung */
 tr.ausgabe {
     background-color: var(--debit-color, #ffdddd);  /* Standardmäßig ein leichtes Rot, falls --debit-color nicht definiert ist */
