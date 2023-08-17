@@ -7,34 +7,7 @@ nav_order: 4
 
 
 # [API reference]
-{: .no_toc }
-
-<details open markdown="block">
-  <summary>
-    Table of contents
-  </summary>
-  {: .text-delta }
-- TOC
-{:toc}
-</details>
-
-## [Section / module]
-
-### `function_definition()`
-
-**Route:** `/route/`
-
-**Methods:** `POST` `GET` `PATCH` `PUT` `DELETE`
-
-**Purpose:** [Short explanation of what the function does and why]
-
-**Sample output:**
-
-[Show an image, string output, or similar illustration -- or write NONE if function generates no output]
-
 ---
-
-## login
 
 ### `login()`
 
@@ -42,7 +15,7 @@ nav_order: 4
 
 **Methods:** `GET, POST`
 
-**Purpose:** to sign in or log in.
+**Purpose:** to sign or log in.
 
 **Sample output:**
 
@@ -56,7 +29,7 @@ nav_order: 4
 
 **Methods:** `GET`
 
-**Purpose:** .
+**Purpose:** to show all accessable funkctions and have an overview of the finances
 
 **Sample output:**
 
@@ -64,16 +37,117 @@ nav_order: 4
 
 ---
 
-## [Example, delete this section] Insert sample data
+### `addTransaction()`
 
-### `run_insert_sample()`
+**Route:** `/addTransaction`
+
+**Methods:** `GET, POST`
+
+**Purpose:** insert a Transaction by user input 
+
+**Sample output:**
+
+Browser shows: `Database flushed and populated with some sample data.`
+
+
+---
+
+### `transactionOverview()`
+
+**Route:** `/transactionOverview`
+
+**Methods:** `GET`
+
+**Purpose:** show all Transactions from the user
+
+**Sample output:**
+
+Browser shows: `Transactions from the user with delete buttons`
+
+
+---
+
+### `delete_transaction(id)`
+
+**Route:** `delete_transaction/<int:id>`
+
+**Methods:** `,POST`
+
+**Purpose:** delete a selected transaction from the database (and changes Kontostand)
+
+**Sample output:**
+
+Browser shows: `Transaktion erfolgreich gelöscht!`
+
+---
+
+### `Steuerung()`
+
+**Route:** `/Steuerung`
+
+**Methods:** `GET`
+
+**Purpose:** available as admin user, shows all users with delete buttons  
+
+**Sample output:**
+
+Browser shows: `Shows all users `
+
+---
+
+### `deleteUser()`
+
+**Route:** `//deleteUser/<int:user_id>`
+
+**Methods:** ` POST`
+
+**Purpose:** delete selected User 
+
+**Sample output:**
+
+Browser shows: `Benutzer erfolgreich gelöscht.`
+
+---
+
+
+### `edit_profile()`
+
+**Route:** `/edit_profile`
+
+**Methods:** `GET, POST`
+
+**Purpose:** lets the user change his username or delete his account, with insertion of his password 
+
+**Sample output:**
+
+Browser shows: `Benutzername erfolgreich aktualisiert!, Benutzerkonto erfolgreich gelöscht.`
+
+---
+
+### `insert/sample()`
 
 **Route:** `/insert/sample`
 
 **Methods:** `GET`
 
-**Purpose:** Flush the database and insert sample data set
+**Purpose:** insert a sample user and sample admin
 
 **Sample output:**
 
 Browser shows: `Database flushed and populated with some sample data.`
+
+---
+
+### `budget()`
+
+**Route:** `/budget`
+
+**Methods:** `GET, POST`
+
+**Purpose:** user can create a budget
+
+**Sample output:**
+
+Browser shows: `f'Budget "{name}" erfolgreich erstellt.`
+
+
