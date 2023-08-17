@@ -42,3 +42,6 @@ Contributions
 : Budget tool added
 : Diagram tool added
 : Basic homepage design
+: Moved transaction to homepage
+: Moved Budgets to homepage
+: Design peer programming
