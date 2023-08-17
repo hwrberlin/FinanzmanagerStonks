@@ -18,15 +18,35 @@ nav_order: 5
 {:toc}
 </details>
 
-## 01: Homepage
+# 03: Central Placement of Core Actions
 
-### Problem statement
+## Problem Statement
+Users often struggle to find primary actions in an application, leading to frustration and extended navigation times.
 
-Financial management can be difficult and overwhelming. Thats why the user needs a simple UI and the app needs to be easy to use.
+## Decision
+Should we place core actions centrally and visibly on the homepageor disperse them throughout the app and make many different links?
 
-### Decision
+## Regarded options
 
-We desided that most of the tools of the app are located on the homepage. This ensures a simple user experience because all the information is accessible without different routes that the user must know.
+### Central Placement
+#### Pros
+- Immediate Access: Users can quickly locate and use primary features.
+- Intuitive Design: Central placement aligns with users' expectations for crucial actions.
+- Efficient Navigation: Reduces the time users spend searching for features.
+
+#### Cons
+- Potentially Reduces Space: Might take up prime screen real estate.
+- Overemphasis: Not all centrally placed features might be used frequently.
+
+### Dispersed Placement
+#### Pros
+- Balanced Screen: Allows for a more distributed design.
+- Feature Highlighting: Can highlight lesser-known features by placing them more centrally.
+
+#### Cons
+- Difficult Navigation: Users might struggle to find essential features.
+- Reduced Efficiency: Might increase the time taken to execute core actions.
+
 
 -----------------------------------------------------------------------------------------------
 
@@ -76,16 +96,90 @@ For our targetaudience and value proposition we desided on having only few butto
 
 -----------------------------------------------------------------------------------------------
 
-## 03: [Title]
+# 03: Visible Feedback Mechanisms
 
-### Problem statement
+## Problem Statement
+Users often execute actions within an application without knowing if they were successful or what the result was. This can lead to confusion and frustration.
 
-[Describe the problem to be solved or the goal to be achieved. Include relevant context information.]
+## Decision
+Should we provide visible feedback for every significant user action or keep feedback minimal?
 
-### Decision
+## Regarded options
 
-[Describe **which** design decision was taken for **what reason** and by **whom**.]
+### Visible Feedback
+#### Pros
+- Clear Communication: Provides immediate clarity on the outcome of an action.
+- Enhanced UX: Ensures users don't have to guess or check if their action was successful.
+- Reduces Errors: Can prompt the user to try again or seek help if something goes wrong.
 
-### Regarded options
+#### Cons
+- Potential for Overuse: Overdoing feedback can annoy users if not executed correctly.
+- Design Challenges: Ensuring feedback is consistent and fits with the overall design.
 
-[Describe any possible design decision that will solve the problem. Assess these options, e.g., via a simple pro/con list.]
+### Minimal Feedback
+#### Pros
+- Cleaner UI: Less clutter in the user interface.
+- Less Distraction: Allows users to focus on their tasks without frequent interruptions.
+
+#### Cons
+- Increased Uncertainty: Users may be unsure if their actions had the desired outcome.
+- Potential for Errors: Without proper feedback, users might repeat actions unnecessarily.
+
+# 04: Color Differentiation
+
+## Problem Statement
+Users often struggle to quickly distinguish between different types of transactions or data in financial applications.
+
+## Decision
+Should we use color differentiation to represent various data types, such as income and expenses?
+
+## Regarded options
+
+### Color Differentiation
+#### Pros
+- Quick Identification: Allows users to instantly recognize the type of transaction or data.
+- Enhanced UX: Visual differentiation can make the app more user-friendly.
+- Aesthetically Pleasing: Proper color coding can enhance the visual appeal.
+
+#### Cons
+- Colorblind Issues: Users with color vision deficiencies might struggle.
+- Overuse: Too many colors can make the design chaotic.
+
+### No Color Differentiation
+#### Pros
+- Uniform Design: Consistent look without the distraction of multiple colors.
+- No Colorblind Issues: Won't have to worry about certain users misinterpreting colors.
+
+#### Cons
+- Slower Data Processing: Users might take longer to differentiate between data types.
+- Potential Confusion: Without colors, data might blend together.
+
+# 03: Central Placement of Core Actions
+
+## Problem Statement
+Users often struggle to find primary actions in an application, leading to frustration and extended navigation times.
+
+## Decision
+Should we place core actions centrally and visibly or disperse them throughout the app?
+
+## Regarded options
+
+### Central Placement
+#### Pros
+- Immediate Access: Users can quickly locate and use primary features.
+- Intuitive Design: Central placement aligns with users' expectations for crucial actions.
+- Efficient Navigation: Reduces the time users spend searching for features.
+
+#### Cons
+- Potentially Reduces Space: Might take up prime screen real estate.
+- Overemphasis: Not all centrally placed features might be used frequently.
+
+### Dispersed Placement
+#### Pros
+- Balanced Screen: Allows for a more distributed design.
+- Feature Highlighting: Can highlight lesser-known features by placing them more centrally.
+
+#### Cons
+- Difficult Navigation: Users might struggle to find essential features.
+- Reduced Efficiency: Might increase the time taken to execute core actions.
+
