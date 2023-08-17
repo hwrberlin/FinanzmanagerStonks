@@ -1,22 +1,7 @@
----
-title: User Evaluation
-nav_order: 3
----
 
-[Jane Dane]
-{: .label }
 
 # [User evaluation]
-{: .no_toc }
 
-<details open markdown="block">
-  <summary>
-    Table of contents
-  </summary>
-  {: .text-delta }
-- TOC
-{:toc}
-</details>
 
 ## 01: User Interface Evaluation
 
