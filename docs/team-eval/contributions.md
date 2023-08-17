@@ -36,12 +36,12 @@ Contributions
 
 Contributions
 : Datenbank und Login Peer-Programming
-: Login and Signup
-: Slide Animation for Login and Signup
-: Added general CSS styles for reusing
-: Budget tool added
-: Diagram tool added
+: Login and Signup hinzugefügt
+: Slide Animation für Login and Signup
+: CSS Code für Wiederverwendung geschrieben
+: Budget tool erstellt
+: Diagramm tool für den Kontostandverlauf erstellt
 : Basic homepage design
-: Moved transaction to homepage
-: Moved Budgets to homepage
+: Transaction Übersicht auf Homepage erstellt
+: Budget auf die Homepage verschoben
 : Design peer programming
