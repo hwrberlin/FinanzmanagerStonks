@@ -350,3 +350,13 @@ form textarea {
 .add-budget-btn:hover {
     background-color: var(--link-color);
 }
+.delete-form {
+    margin-bottom: 0;
+    padding: 5px;
+    border-radius: 5px;
+}
+
+.delete-button {
+    padding: 5px 10px;
+    font-size: 0.9em;
+}
