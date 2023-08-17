@@ -4,8 +4,7 @@ parent: Technical Docs
 nav_order: 2
 ---
 
-[Jane Dane]
-{: .label }
+
 
 # [App behavior]
 {: .no_toc }
