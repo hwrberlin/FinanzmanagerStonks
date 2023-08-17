@@ -21,7 +21,5 @@ nav_order: 1
 
 
   </summary>
-  {: .text-delta }
-- TOC
-{:toc}
+ Ablauf diagramm (+ veränderungen ändern oder Schildern) einfügen oder screenshots der app
 </details>
