@@ -117,16 +117,24 @@ def homepage():
         'SELECT * FROM transactions WHERE user_id = ? ORDER BY timestamp DESC LIMIT 5',
         (user_id,)
     ).fetchall()
+    
     budgets = db_con.execute('SELECT * FROM budget WHERE user_id = ?', (user_id,)).fetchall()
+
 
     current_balance = db_con.execute(
     'SELECT kontostand FROM transactions WHERE user_id = ? ORDER BY id DESC LIMIT 1',
     (user_id,)
     ).fetchone() # doppelt definiert, mal schauen ob das noch besser gemacht werden kann
+    dates = [entry['timestamp'] for entry in account_balance_data]
+    account_balance_data = db_con.execute(
+        'SELECT kontostand, timestamp FROM transactions WHERE user_id = ? ORDER BY timestamp ASC',
+        (user_id,)
+    ).fetchall()
+    balances = [entry['kontostand'] for entry in account_balance_data]
 
-    return render_template('homepage.html', transactions=transactions, user_role = user_role, budgets = budgets, current_balance=current_balance)
+    return render_template('homepage.html', transactions=transactions, user_role = user_role, budgets = budgets, current_balance=current_balance, dates=dates, balances=balances)
 
-   
+
 
 
 

@@ -2,25 +2,11 @@
 <html>
 <head>
     <title>Budget verwalten</title>
+    <link rel="stylesheet" href="..\static\colors.css">
+    <link rel="stylesheet" href="..\static\style.css">
 </head>
 <body>
-    <h2>Budget verwalten</h2>
-
-    <!-- Budgets anzeigen -->
-    {% if budgets %}
-    <h3>Aktuelle Budgets</h3>
-    <ul>
-        {% for budget in budgets %}
-        <li>
-            Name: {{ budget.name }} | Betrag: {{ budget.amount }}€ | Bis zum Datum: {{ budget.end_date }}
-        </li>
-        {% endfor %}
-    </ul>
-    {% else %}
-    <p>Kein Budget gesetzt.</p>
-    {% endif %}
-
-    <!-- Neues Budget hinzufügen -->
+        <!-- Neues Budget hinzufügen -->
     <h3>Neues Budget hinzufügen</h3>
     <form action="{{ url_for('budget') }}" method="post">
         <label for="budget_name">Budgetname:</label>
