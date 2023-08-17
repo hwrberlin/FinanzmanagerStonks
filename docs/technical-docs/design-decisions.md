@@ -7,18 +7,8 @@ nav_order: 5
 
 
 # [Design decisions]
-{: .no_toc }
 
-<details open markdown="block">
-  <summary>
-    Table of contents
-  </summary>
-  {: .text-delta }
-- TOC
-{:toc}
-</details>
-
-# 03: Central Placement of Core Actions
+# 01: Central Placement of Core Actions
 
 ## Problem Statement
 Users often struggle to find primary actions in an application, leading to frustration and extended navigation times.
