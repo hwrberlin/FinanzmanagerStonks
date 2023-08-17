@@ -1,11 +1,6 @@
-# Contents of this repository
 
-This repository contains some starter code for your semester project:
 
-+ The example code from the *"[intro to full-stack web development with Flask](https://hwrberlin.github.io/fswd/02-fswd-intro.html)"* session
-+ A basic structure for your documentation page
-
-## Steps to execute the example code
+## Steps to execute the finance manager from Stonks
 
 **Step 1:** set up and activate a [Python Virtual Environment](https://hwrberlin.github.io/fswd/01-python-vscode.html#32-use-the-python-virtual-environment-as-default-for-this-workspace).
 
@@ -15,7 +10,6 @@ This repository contains some starter code for your semester project:
 (venv) C:\Users\me\projects\webapp> pip install -r requirements.txt
 ```
 
-> I created the file `📄requirements.txt` with this command: `pip freeze > requirements.txt`
 
 **Step 3:** initialize the app's SQLite database via `flask init-db`:
 
@@ -36,6 +30,8 @@ Press CTRL+C to quit
  * Restarting with stat
 ```
 
-**Step 5:** visit [http://127.0.0.1:5000/insert/sample](http://127.0.0.1:5000/insert/sample) to populate the app's database with some sample data.
+**Step 5:** Insert Data to populate the database with ( 1 User and 1 Admin) via 'flask insert-sample':
 
 **Step 6:** visit [http://127.0.0.1:5000/](http://127.0.0.1:5000/) to view the landing page
+
+**Step 7:** Login in via admin user:'stonksadmin' password:'stonksadmin' to have admin access or create a user account for urself

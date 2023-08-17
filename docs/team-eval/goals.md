@@ -4,17 +4,15 @@ parent: Team Evaluation
 nav_order: 1
 ---
 
-[Jane Dane]
-{: .label }
 
 # [Goals achieved and missed]
-{: .no_toc }
+goals achieved:
+- funktionierendes fullstack programm
+- schönes ituitives design
+- Übung im programmieren (Python, SQL, HTML, CSS, Jinja 2, Javascript)
+  
 
-<details open markdown="block">
-  <summary>
-    Table of contents
-  </summary>
-  {: .text-delta }
-- TOC
-{:toc}
-</details>
+
+goals missed:
+- no goals missed
+- the scale could have been even bigger by suggesting investment plans and so on

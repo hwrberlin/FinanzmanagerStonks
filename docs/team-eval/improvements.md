@@ -4,17 +4,6 @@ parent: Team Evaluation
 nav_order: 2
 ---
 
-[Jane Dane]
-{: .label }
 
 # [How we would improve next time]
-{: .no_toc }
-
-<details open markdown="block">
-  <summary>
-    Table of contents
-  </summary>
-  {: .text-delta }
-- TOC
-{:toc}
-</details>
+We could improve the scale of the program and maybe even improve our tech-stack even further to get a better result. Maybe have a better focus for the most important parts, but this has not effected the result. 
