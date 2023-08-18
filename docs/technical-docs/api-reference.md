@@ -19,7 +19,21 @@ nav_order: 4
 
 **Sample output:**
 
-![get_lists() sample]()
+![login() sample](../assets/images/login.PNG)
+
+---
+
+### `logout()`
+
+**Route:** `/logout`
+
+**Methods:** 
+
+**Purpose:** to logout.
+
+**Sample output:**
+
+Browser shows login screen
 
 ---
 
@@ -33,7 +47,7 @@ nav_order: 4
 
 **Sample output:**
 
-![get_list_todos() sample](../assets/images/fswd-intro_02.png)
+![homepage() sample](../assets/images/homepage.PNG)
 
 ---
 
@@ -47,7 +61,7 @@ nav_order: 4
 
 **Sample output:**
 
-Browser shows: `Database flushed and populated with some sample data.`
+![get_list_todos() sample](../assets/images/addTransaction.PNG)
 
 
 ---
@@ -62,7 +76,7 @@ Browser shows: `Database flushed and populated with some sample data.`
 
 **Sample output:**
 
-Browser shows: `Transactions from the user with delete buttons`
+![transactionOverview() sample](../assets/images/transactionOverview.PNG)
 
 
 ---
@@ -91,7 +105,7 @@ Browser shows: `Transaktion erfolgreich gelöscht!`
 
 **Sample output:**
 
-Browser shows: `Shows all users `
+![Steuerung() sample](../assets/images/Steuerung.PNG)
 
 ---
 
@@ -120,7 +134,7 @@ Browser shows: `Benutzer erfolgreich gelöscht.`
 
 **Sample output:**
 
-Browser shows: `Benutzername erfolgreich aktualisiert!, Benutzerkonto erfolgreich gelöscht.`
+![edit_profile() sample](../assets/images/edit_profile.PNG)
 
 ---
 
@@ -148,6 +162,32 @@ Browser shows: `Database flushed and populated with some sample data.`
 
 **Sample output:**
 
-Browser shows: `f'Budget "{name}" erfolgreich erstellt.`
+![budget() sample](../assets/images/budget.PNG)
 
+---
 
+### `delete_budget()`
+
+**Route:** `/delete_budget`
+
+**Methods:** `POST`
+
+**Purpose:** user can delete a budget
+
+**Sample output:**
+
+Deletes the budget
+
+---
+
+### `getChartData()`
+
+**Route:** `/get_chart_data`
+
+**Methods:** `POST`
+
+**Purpose:** getter Function to get the data for drawing the chart
+
+**Sample output:**
+
+returns the data needed

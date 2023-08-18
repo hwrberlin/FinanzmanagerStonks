@@ -1,7 +1,10 @@
 import os
-from flask import Flask, render_template, redirect, url_for, request, flash, session
+from flask import Flask, render_template, redirect, url_for, request, flash, session, jsonify
 import db
 from werkzeug.security import generate_password_hash, check_password_hash
+from datetime import datetime
+
+
  
 app = Flask(__name__)
 
@@ -104,7 +107,6 @@ def homepage():
 
 @app.route('/addTransaction', methods=['GET', 'POST'])
 def addTransaction():
-
     user_id = session.get('user_id')
     print(f"Aktuelle Benutzer-ID aus der Session: {user_id}")
 
@@ -115,16 +117,13 @@ def addTransaction():
     if request.method == 'POST':
         user_id = session['user_id']
         amount = float(request.form.get('amount'))
-       
-
-        
         description = request.form.get('description')
         transaction_type = request.form.get('transaction_type')
         category = request.form.get('category')  #toggle button (Finanzkategorie)
 
         db_con = db.get_db_con()
 
-# aktuellen Kontostand des Benutzers abrufen
+        # aktuellen Kontostand des Benutzers abrufen
         current_balance = db_con.execute(
             'SELECT kontostand FROM transactions WHERE user_id = ? ORDER BY id DESC LIMIT 1',
             (user_id,)
@@ -135,7 +134,7 @@ def addTransaction():
         else:
             current_balance = current_balance['kontostand']
 
- # Kontostand basierend auf der Transaktion aktualisieren
+        # Kontostand basierend auf der Transaktion aktualisieren
         if transaction_type == 'einnahme':
             new_balance = current_balance + amount
         elif transaction_type == 'ausgabe':
@@ -144,18 +143,50 @@ def addTransaction():
             flash('Ungültiger Transaktionstyp.')
             return redirect(url_for('addTransaction'))
 
+        # Überprüfen, ob ein Budget für diese Kategorie existiert
+        budget = db_con.execute('SELECT * FROM budget WHERE user_id = ? AND category = ?', (user_id, category)).fetchone()
+        if budget and transaction_type == 'ausgabe':
+            remaining_budget = float(budget['amount']) - amount
+            db_con.execute('UPDATE budget SET amount = ? WHERE user_id = ? AND category = ?', (remaining_budget, user_id, category))
+            db_con.commit()
+
         db_con.execute(
             'INSERT INTO transactions (user_id, amount, description, transaction_type, category, kontostand) VALUES (?, ?, ?, ?, ?, ?)',
             (user_id, amount, description, transaction_type, category, new_balance)  
         )
         db_con.commit()
         flash('Transaktion erfolgreich hinzugefügt.')  
-        return redirect(url_for('addTransaction')) 
-
+        return redirect(url_for('homepage')) 
+        
+        
 
     return render_template('addTransaction.html')
 
+
+
+
+@app.route('/get_transactions')
+def get_transactions():
+    db_con = db.get_db_con()
+    transactions = db_con.execute('SELECT * FROM transactions').fetchall()
+
+    output = []
+    for transaction in transactions:
+        transaction_data = {
+            'id': transaction['id'],
+            'user_id': transaction['user_id'],
+            'amount': transaction['amount'],
+            'description': transaction['description'],
+            'transaction_type': transaction['transaction_type'],
+            'category': transaction['category'],
+            'kontostand': transaction['kontostand']
+        }
+        output.append(transaction_data)
+
+    return {'transactions': output} 
+
 "wir hatten hier eine get transaction route, um immer wieder beim testen alle Transactionen auszugeben"
+
 
 @app.route('/TransactionOverview')
 def TransactionOverview():
@@ -192,10 +223,10 @@ def delete_transaction(id):
         flash('Transaktion nicht gefunden oder du hast nicht die Berechtigung, sie zu löschen.')
         return redirect(url_for('TransactionOverview'))
     
-     # Den Kontostand aus der Transaktion abrufen
+    # Kontostand
     current_balance = transaction_to_delete['Kontostand']
 
-    # Aktualisieren des Kontostandes basierend auf der Art der Transaktion
+    # Aktualisieren des Kontostandes
     if transaction_to_delete['transaction_type'] == 'einnahme':
         new_balance = current_balance - transaction_to_delete['amount']
     else:
@@ -206,19 +237,70 @@ def delete_transaction(id):
         
     # Aktualisieren des Kontostandes in der Datenbank
     db_con.execute(
-        'UPDATE transactions SET Kontostand = ? WHERE user_id = ?', (new_balance, user_id)
+        'UPDATE transactions SET Kontostand = ? WHERE id = ?', (new_balance, id)
     )
 
-    # Lösche die Transaktion
+    # Löschen
     db_con.execute('DELETE FROM transactions WHERE id = ?', (id,))
     db_con.commit()
 
+    # Aktualisieren des Kontostandes für alle nachfolgenden Transaktionen
+    subsequent_transactions = db_con.execute(
+        'SELECT * FROM transactions WHERE user_id = ? AND timestamp > ? ORDER BY timestamp ASC',
+        (user_id, transaction_to_delete['timestamp'])
+    ).fetchall()
+
+    for transaction in subsequent_transactions:
+        if transaction['transaction_type'] == 'einnahme':
+            new_balance += transaction['amount']
+        else:
+            new_balance -= transaction['amount']
+
+        db_con.execute(
+            'UPDATE transactions SET Kontostand = ? WHERE id = ?', (new_balance, transaction['id'])
+        )
+    
+    from datetime import datetime
+
+    from datetime import datetime
+
+    # Anpassen des Budgets
+    budget = db_con.execute(
+        'SELECT * FROM budget WHERE user_id = ? AND category = ?',
+        (user_id, transaction_to_delete['category'])
+    ).fetchone()
+
+    if budget and transaction_to_delete['transaction_type'] == 'ausgabe':
+        budget_creation_timestamp = datetime.strptime(budget['created_at'], '%Y-%m-%d %H:%M:%S')
+        transaction_timestamp = datetime.strptime(transaction_to_delete['timestamp'], '%Y-%m-%d %H:%M:%S')
+
+        # Debug-Informationen
+        print(f"Budget-Erstellungszeitstempel: {budget_creation_timestamp}")
+        print(f"Transaktionszeitstempel: {transaction_timestamp}")
+
+        if transaction_timestamp >= budget_creation_timestamp:
+            adjusted_budget = float(budget['amount']) + transaction_to_delete['amount']
+            db_con.execute(
+                'UPDATE budget SET amount = ? WHERE user_id = ? AND category = ?',
+                (adjusted_budget, user_id, transaction_to_delete['category'])
+            )
+            db_con.commit()
+            flash('Budget erfolgreich angepasst.')
+        else:
+            flash('Transaktion beeinflusst nicht das Budget.')
+
+
+
+
+    
+    db_con.commit()
     flash('Transaktion erfolgreich gelöscht!')
 
     if next_url:
         return redirect(next_url)
     else:
         return redirect(url_for('TransactionOverview'))
+
 
 
 
@@ -330,14 +412,83 @@ def budget():
     budgets = db_con.execute('SELECT * FROM budget WHERE user_id = ?', (user_id,)).fetchall()
 
     if request.method == 'POST':
-        name = request.form.get('budget_name')
+        category = request.form.get('budget_category')
         amount = request.form.get('budget_amount')
         end_date = request.form.get('budget_end_date')
 
-        db_con.execute('INSERT INTO budget (user_id, name, amount, end_date) VALUES (?, ?, ?, ?)', (user_id, name, amount, end_date))
-        db_con.commit()
+        existing_budget = db_con.execute('SELECT * FROM budget WHERE user_id = ? AND category = ?', (user_id, category)).fetchone()
 
-        flash(f'Budget "{name}" erfolgreich erstellt.')
-        return redirect(url_for('budget'))
+        if existing_budget:
+            flash(f'Es gibt bereits ein Budget für die Kategorie "{category}".')
+        else:
+            db_con.execute('INSERT INTO budget (user_id, category, amount, end_date) VALUES (?, ?, ?, ?)', (user_id, category, amount, end_date))
+            db_con.commit()
+
+            flash(f'Budget für Kategorie "{category}" erfolgreich erstellt.')
+
+        return redirect(url_for('homepage'))
 
     return render_template('budget.html', budgets=budgets)
+
+@app.route('/delete_budget/<int:id>', methods=['POST'])
+def delete_budget(id):
+    if 'user_id' not in session:
+        flash('Du musst eingeloggt sein, um ein Budget zu löschen.')
+        return redirect(url_for('login'))
+
+    user_id = session['user_id']
+    db_con = db.get_db_con()
+
+    # Make sure that the budget exists and belongs to the logged-in user
+    budget = db_con.execute('SELECT * FROM budget WHERE id = ? AND user_id = ?', (id, user_id)).fetchone()
+
+    if not budget:
+        flash('Budget nicht gefunden oder gehört nicht zum eingeloggten Benutzer.')
+    else:
+        # Delete the budget from the database
+        db_con.execute('DELETE FROM budget WHERE id = ?', (id,))
+        db_con.commit()
+
+        flash(f'Budget für Kategorie "{budget["category"]}" erfolgreich gelöscht.')
+
+    return redirect(url_for('homepage'))
+
+
+
+@app.route('/getChartData', methods=['POST'])
+def get_chart_data():
+    category = request.form.get('category')
+    db_con = db.get_db_con()
+    user_id = session['user_id']
+
+    if category == 'kontostand':
+        transactions = db_con.execute('SELECT timestamp, kontostand FROM transactions WHERE user_id = ? ORDER BY timestamp ASC', (user_id,)).fetchall()
+        labels = [str(t[0]) for t in transactions]
+        data_values = [t[1] for t in transactions]
+    else:
+        transactions = db_con.execute('SELECT timestamp, amount FROM transactions WHERE user_id = ? AND category = ? ORDER BY timestamp ASC', (user_id, category)).fetchall()
+        labels = [str(t[0]) for t in transactions]
+        
+        # Berechnen der Summe der Transaktionsbeträge
+        cumulative_sum = 0
+        cumulative_sums = []
+        for t in transactions:
+            cumulative_sum += t[1]
+            cumulative_sums.append(cumulative_sum)
+        data_values = cumulative_sums
+
+    data = {
+        'labels': labels,
+        'datasets': [
+            {
+                'label': category,
+                'data': data_values,
+                'borderColor': 'rgba(75, 192, 192, 1)',
+                'fill': False,
+            }
+        ]
+    }
+
+    return jsonify(data)
+
+
