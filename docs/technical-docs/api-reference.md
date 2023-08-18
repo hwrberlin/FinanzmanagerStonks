@@ -47,7 +47,7 @@ nav_order: 4
 
 **Sample output:**
 
-Browser shows: `Database flushed and populated with some sample data.`
+![get_list_todos() sample](../assets/images/addTransaction.PNG)
 
 
 ---
@@ -62,7 +62,7 @@ Browser shows: `Database flushed and populated with some sample data.`
 
 **Sample output:**
 
-Browser shows: `Transactions from the user with delete buttons`
+![transactionOverview() sample](../assets/images/transactionOverview.PNG)
 
 
 ---
@@ -91,7 +91,7 @@ Browser shows: `Transaktion erfolgreich gelöscht!`
 
 **Sample output:**
 
-Browser shows: `Shows all users `
+![Steuerung() sample](../assets/images/Steuerung.PNG)
 
 ---
 
@@ -120,7 +120,7 @@ Browser shows: `Benutzer erfolgreich gelöscht.`
 
 **Sample output:**
 
-Browser shows: `Benutzername erfolgreich aktualisiert!, Benutzerkonto erfolgreich gelöscht.`
+![edit_profile() sample](../assets/images/edit_profile.PNG)
 
 ---
 
@@ -148,6 +148,6 @@ Browser shows: `Database flushed and populated with some sample data.`
 
 **Sample output:**
 
-Browser shows: `f'Budget "{name}" erfolgreich erstellt.`
+![budget() sample](../assets/images/budget.PNG)
 
 
