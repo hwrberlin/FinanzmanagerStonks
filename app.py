@@ -2,6 +2,7 @@ import os
 from flask import Flask, render_template, redirect, url_for, request, flash, session, jsonify
 import db
 from werkzeug.security import generate_password_hash, check_password_hash
+from datetime import datetime
 
 #mögliche Datenbankänderung
 

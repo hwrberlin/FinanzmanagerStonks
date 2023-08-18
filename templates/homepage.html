@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="..\static\colors.css">
     <link rel="stylesheet" href="..\static\style.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
 </head>
 <body>
 
@@ -88,6 +89,7 @@
     
     
     <div class="column" style="background-color: white;">
+        <h2>Statistiken</h2>
         <label for="category">Kategorie:</label>
         <select name="category" id="categoryDropdown" onchange="updateChart();">
 
@@ -104,9 +106,8 @@
             <option value="sparen">Sparen</option>
         </select><br>
 
-        <h2>Kontostandverlauf</h2>
         <div style="width: 100%; height: 90%;">
-            <canvas id="myChart" style="width: 100%; height: 100%;"></canvas>
+            <canvas id="myChart" style="width: 100%; height: 90%;"></canvas>
         </div>
     </div>
     
@@ -163,6 +164,7 @@
     },
     options: {
         scales: {
+            
             y: {
                 beginAtZero: true
             }
