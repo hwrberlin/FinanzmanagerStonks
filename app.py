@@ -1,5 +1,5 @@
 import os
-from flask import Flask, render_template, redirect, url_for, request, flash, session
+from flask import Flask, render_template, redirect, url_for, request, flash, session, jsonify
 import db
 from werkzeug.security import generate_password_hash, check_password_hash
 
@@ -254,10 +254,10 @@ def delete_transaction(id):
         flash('Transaktion nicht gefunden oder du hast nicht die Berechtigung, sie zu löschen.')
         return redirect(url_for('TransactionOverview'))
     
-     # Den Kontostand aus der Transaktion abrufen
+    # Kontostand
     current_balance = transaction_to_delete['Kontostand']
 
-    # Aktualisieren des Kontostandes basierend auf der Art der Transaktion
+    # Aktualisieren des Kontostandes
     if transaction_to_delete['transaction_type'] == 'einnahme':
         new_balance = current_balance - transaction_to_delete['amount']
     else:
@@ -268,19 +268,37 @@ def delete_transaction(id):
         
     # Aktualisieren des Kontostandes in der Datenbank
     db_con.execute(
-        'UPDATE transactions SET Kontostand = ? WHERE user_id = ?', (new_balance, user_id)
+        'UPDATE transactions SET Kontostand = ? WHERE id = ?', (new_balance, id)
     )
 
-    # Lösche die Transaktion
+    # Löschen
     db_con.execute('DELETE FROM transactions WHERE id = ?', (id,))
     db_con.commit()
 
+    # Aktualisieren des Kontostandes für alle nachfolgenden Transaktionen
+    subsequent_transactions = db_con.execute(
+        'SELECT * FROM transactions WHERE user_id = ? AND timestamp > ? ORDER BY timestamp ASC',
+        (user_id, transaction_to_delete['timestamp'])
+    ).fetchall()
+
+    for transaction in subsequent_transactions:
+        if transaction['transaction_type'] == 'einnahme':
+            new_balance += transaction['amount']
+        else:
+            new_balance -= transaction['amount']
+
+        db_con.execute(
+            'UPDATE transactions SET Kontostand = ? WHERE id = ?', (new_balance, transaction['id'])
+        )
+    
+    db_con.commit()
     flash('Transaktion erfolgreich gelöscht!')
 
     if next_url:
         return redirect(next_url)
     else:
         return redirect(url_for('TransactionOverview'))
+
 
 
 
@@ -403,3 +421,42 @@ def budget():
         return redirect(url_for('budget'))
 
     return render_template('budget.html', budgets=budgets)
+
+
+@app.route('/getChartData', methods=['POST'])
+def get_chart_data():
+    category = request.form.get('category')
+    db_con = db.get_db_con()
+    user_id = session['user_id']
+
+    if category == 'kontostand':
+        transactions = db_con.execute('SELECT timestamp, kontostand FROM transactions WHERE user_id = ? ORDER BY timestamp ASC', (user_id,)).fetchall()
+        labels = [str(t[0]) for t in transactions]
+        data_values = [t[1] for t in transactions]
+    else:
+        transactions = db_con.execute('SELECT timestamp, amount FROM transactions WHERE user_id = ? AND category = ? ORDER BY timestamp ASC', (user_id, category)).fetchall()
+        labels = [str(t[0]) for t in transactions]
+        
+        # Berechnen der Summe der Transaktionsbeträge
+        cumulative_sum = 0
+        cumulative_sums = []
+        for t in transactions:
+            cumulative_sum += t[1]
+            cumulative_sums.append(cumulative_sum)
+        data_values = cumulative_sums
+
+    data = {
+        'labels': labels,
+        'datasets': [
+            {
+                'label': category,
+                'data': data_values,
+                'borderColor': 'rgba(75, 192, 192, 1)',
+                'fill': False,
+            }
+        ]
+    }
+
+    return jsonify(data)
+
+

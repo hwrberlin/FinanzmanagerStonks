@@ -88,6 +88,22 @@
     
     
     <div class="column" style="background-color: white;">
+        <label for="category">Kategorie:</label>
+        <select name="category" id="categoryDropdown" onchange="updateChart();">
+
+            <option value="kontostand">Kontostand</option>
+            <option value="sonstiges">Sonstiges</option>
+            <option value="essen">Essen</option>
+            <option value="gehalt">Gehalt</option>
+            <option value="wohnen">Wohnen</option>
+            <option value="transport">Transport</option>
+            <option value="kleidung">Kleidung</option>
+            <option value="gesundheit">Gesundheit</option>
+            <option value="freizeit">Freizeit</option>
+            <option value="versicherungen">Versicherung</option>
+            <option value="sparen">Sparen</option>
+        </select><br>
+
         <h2>Kontostandverlauf</h2>
         <div style="width: 100%; height: 90%;">
             <canvas id="myChart" style="width: 100%; height: 100%;"></canvas>
@@ -135,24 +151,59 @@
 <script>
     var ctx = document.getElementById('myChart').getContext('2d');
     var myChart = new Chart(ctx, {
-        type: 'line',
-        data: {
-            labels: {{ dates|tojson }},
-            datasets: [{
-                label: 'Kontostand',
-                data: {{ balances|tojson }},
-                borderColor: 'rgba(75, 192, 192, 1)',
-                fill: false,
-            }]
-        },
-        options: {
-            scales: {
-                y: {
-                    beginAtZero: true
-                }
+    type: 'line',
+    data: {
+        labels: [],
+        datasets: [{
+            label: 'Kontostand',
+            data: [],
+            borderColor: 'rgba(75, 192, 192, 1)',
+            fill: false,
+        }]
+    },
+    options: {
+        scales: {
+            y: {
+                beginAtZero: true
             }
         }
+    }
     });
+    updateChart();
+
+    async function updateChart() {
+    try {
+        const category = document.getElementById("categoryDropdown").value;
+        const response = await fetch('/getChartData', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            body: `category=${category}`,
+        });
+
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+
+        const data = await response.json();
+        if (!data || !data.labels || !data.datasets) {
+            throw new Error('Invalid data format');
+        }
+
+        myChart.data.labels = data.labels;
+        myChart.data.datasets[0].data = data.datasets[0].data;
+        myChart.data.datasets[0].label = data.datasets[0].label;
+
+        myChart.update();
+    } catch (error) {
+        console.error('There was a problem updating the chart:', error);
+    }
+}
+
+window.addEventListener('load', updateChart);
+
+
 </script>
 <script>
     function confirmDelete() {
