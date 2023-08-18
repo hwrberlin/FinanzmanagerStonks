@@ -21,5 +21,8 @@ nav_order: 1
 
 
   </summary>
- Ablauf diagramm (+ veränderungen ändern oder Schildern) einfügen oder screenshots der app
+
+### Das Ablaufdiagramm hat sich nur leicht verändert. Die zuvor überlegte Struktur wurde nahezu genau wie geplant umgesetzt. Alles, was rot markiert ist hat sich geändert seit der Planung. Hinzugekommen sind die Panels "SteuerungPanel" und "Profil_bearbeitenPanel". Dafür wurde das StatistikenPanel und das BudgetPanel auf dem HomePanel integriert.
+
+![Ablaufdiagramm](../assets/images/ablaufdiagramm.PNG)
 </details>
