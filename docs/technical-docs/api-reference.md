@@ -23,6 +23,20 @@ nav_order: 4
 
 ---
 
+### `logout()`
+
+**Route:** `/logout`
+
+**Methods:** 
+
+**Purpose:** to logout.
+
+**Sample output:**
+
+Browser shows login screen
+
+---
+
 ### `homepage()`
 
 **Route:** `/homepage`
@@ -150,4 +164,30 @@ Browser shows: `Database flushed and populated with some sample data.`
 
 ![budget() sample](../assets/images/budget.PNG)
 
+---
 
+### `delete_budget()`
+
+**Route:** `/delete_budget`
+
+**Methods:** `POST`
+
+**Purpose:** user can delete a budget
+
+**Sample output:**
+
+Deletes the budget
+
+---
+
+### `getChartData()`
+
+**Route:** `/get_chart_data`
+
+**Methods:** `POST`
+
+**Purpose:** getter Function to get the data for drawing the chart
+
+**Sample output:**
+
+returns the data needed
