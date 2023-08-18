@@ -2,10 +2,6 @@ import os
 from flask import Flask, render_template, redirect, url_for, request, flash, session
 import db
 from werkzeug.security import generate_password_hash, check_password_hash
-
-#mögliche Datenbankänderung
-
-# ooof
  
 app = Flask(__name__)
 
@@ -15,29 +11,8 @@ app.config.from_mapping(
 )
 app.cli.add_command(db.init_db)
 app.cli.add_command(db.insert_sample)
-app.teardown_appcontext(db.close_db_con) # Test
+app.teardown_appcontext(db.close_db_con) 
 
-"""
-@app.route('/')
-def login():
-    username = request.args.get('username')
-    password = request.args.get('password')
-
-    if username and password:
-        db_con = db.get_db_con()
-        user = db_con.execute('SELECT * FROM user WHERE username = ?', (username,)).fetchone()
-
-        if user and check_password_hash(user['password'], password):
-            session['user_id'] = user['id']
-            session['user_role'] = user['role']
-            return redirect(url_for('homepage'))
-            flash('erfolgreicher login')
-
-        else:
-            flash('Incorrect username or password')
-
-    return render_template('login_signup.html') # HTML muss noch gecodet werden
-"""
 @app.route('/', methods=['GET', 'POST'])
 def login():
     session.clear() # ausloggungsfunktion, falls man sich nicht ausloggt per knopf
@@ -84,22 +59,7 @@ def logout():
     session.pop('user_id', None)
     return redirect(url_for('login'))
 
-@app.route('/get_users')
-def get_users():
-    db_con = db.get_db_con()
-    users = db_con.execute('SELECT * FROM user').fetchall()
-
-    output = []
-    for user in users:
-        user_data = {
-            'id': user['id'],
-            'username': user['username'],
-            'password': user['password'],
-            'role': user['role']
-        }
-        output.append(user_data)
-
-    return {'users': output}
+"wir hatten hier eine get users route, um immer wieder beim testen alle Nutzer auszugeben"
 
 @app.route('/homepage')
 def homepage():
@@ -124,7 +84,7 @@ def homepage():
     current_balance = db_con.execute(
     'SELECT kontostand FROM transactions WHERE user_id = ? ORDER BY id DESC LIMIT 1',
     (user_id,)
-    ).fetchone() # doppelt definiert, mal schauen ob das noch besser gemacht werden kann
+    ).fetchone()
     
     if current_balance is None:
         current_balance = 0
@@ -140,9 +100,6 @@ def homepage():
     balances = [entry['kontostand'] for entry in account_balance_data]
 
     return render_template('homepage.html', transactions=transactions, user_role = user_role, budgets = budgets, current_balance=current_balance, dates=dates, balances=balances)
-
-
-
 
 
 @app.route('/addTransaction', methods=['GET', 'POST'])
@@ -198,26 +155,7 @@ def addTransaction():
 
     return render_template('addTransaction.html')
 
-
-@app.route('/get_transactions')
-def get_transactions():
-    db_con = db.get_db_con()
-    transactions = db_con.execute('SELECT * FROM transactions').fetchall()
-
-    output = []
-    for transaction in transactions:
-        transaction_data = {
-            'id': transaction['id'],
-            'user_id': transaction['user_id'],
-            'amount': transaction['amount'],
-            'description': transaction['description'],
-            'transaction_type': transaction['transaction_type'],
-            'category': transaction['category'],
-            'kontostand': transaction['kontostand']
-        }
-        output.append(transaction_data)
-
-    return {'transactions': output} 
+"wir hatten hier eine get transaction route, um immer wieder beim testen alle Transactionen auszugeben"
 
 @app.route('/TransactionOverview')
 def TransactionOverview():
@@ -349,7 +287,7 @@ def edit_profile():
         new_username = request.form.get('new_username')
         password = request.form.get('password')
 
-#doppelt gesichert 
+#doppelt gesichert (html required und hier)
         if not new_username: 
             flash('Neuer Benutzername muss eingegeben werden.')
             return render_template('edit_profile.html', user=user)
