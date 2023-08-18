@@ -26,8 +26,9 @@
             <td>{{ transaction.description }}</td>
             <td>{{ transaction.date }}</td>
             <td>
-                <form action="{{ url_for('delete_transaction', id=transaction.id, next_url=url_for('TransactionOverview')) }}" method="post">
-                    <input type="submit" value="Löschen" onclick="return confirmDelete();">
+                <form action="{{ url_for('delete_transaction', id=transaction.id) }}" method="post" class="delete-form">
+                    <input type="hidden" name="next_url" value="{{ url_for('homepage') }}">
+                    <input type="submit" value="Löschen" class="delete-button" onclick="return confirmDelete();">
                 </form>
             </td>
         </tr>

@@ -148,7 +148,6 @@ def homepage():
 
 @app.route('/addTransaction', methods=['GET', 'POST'])
 def addTransaction():
-
     user_id = session.get('user_id')
     print(f"Aktuelle Benutzer-ID aus der Session: {user_id}")
 
@@ -159,16 +158,13 @@ def addTransaction():
     if request.method == 'POST':
         user_id = session['user_id']
         amount = float(request.form.get('amount'))
-       
-
-        
         description = request.form.get('description')
         transaction_type = request.form.get('transaction_type')
         category = request.form.get('category')  #toggle button (Finanzkategorie)
 
         db_con = db.get_db_con()
 
-# aktuellen Kontostand des Benutzers abrufen
+        # aktuellen Kontostand des Benutzers abrufen
         current_balance = db_con.execute(
             'SELECT kontostand FROM transactions WHERE user_id = ? ORDER BY id DESC LIMIT 1',
             (user_id,)
@@ -179,7 +175,7 @@ def addTransaction():
         else:
             current_balance = current_balance['kontostand']
 
- # Kontostand basierend auf der Transaktion aktualisieren
+        # Kontostand basierend auf der Transaktion aktualisieren
         if transaction_type == 'einnahme':
             new_balance = current_balance + amount
         elif transaction_type == 'ausgabe':
@@ -188,16 +184,25 @@ def addTransaction():
             flash('Ungültiger Transaktionstyp.')
             return redirect(url_for('addTransaction'))
 
+        # Überprüfen, ob ein Budget für diese Kategorie existiert
+        budget = db_con.execute('SELECT * FROM budget WHERE user_id = ? AND category = ?', (user_id, category)).fetchone()
+        if budget and transaction_type == 'ausgabe':
+            remaining_budget = float(budget['amount']) - amount
+            db_con.execute('UPDATE budget SET amount = ? WHERE user_id = ? AND category = ?', (remaining_budget, user_id, category))
+            db_con.commit()
+
         db_con.execute(
             'INSERT INTO transactions (user_id, amount, description, transaction_type, category, kontostand) VALUES (?, ?, ?, ?, ?, ?)',
             (user_id, amount, description, transaction_type, category, new_balance)  
         )
         db_con.commit()
         flash('Transaktion erfolgreich hinzugefügt.')  
-        return redirect(url_for('addTransaction')) 
-
+        return redirect(url_for('homepage')) 
+        
+        
 
     return render_template('addTransaction.html')
+
 
 
 @app.route('/get_transactions')
@@ -291,6 +296,39 @@ def delete_transaction(id):
         db_con.execute(
             'UPDATE transactions SET Kontostand = ? WHERE id = ?', (new_balance, transaction['id'])
         )
+    
+    from datetime import datetime
+
+    from datetime import datetime
+
+    # Anpassen des Budgets
+    budget = db_con.execute(
+        'SELECT * FROM budget WHERE user_id = ? AND category = ?',
+        (user_id, transaction_to_delete['category'])
+    ).fetchone()
+
+    if budget and transaction_to_delete['transaction_type'] == 'ausgabe':
+        budget_creation_timestamp = datetime.strptime(budget['created_at'], '%Y-%m-%d %H:%M:%S')
+        transaction_timestamp = datetime.strptime(transaction_to_delete['timestamp'], '%Y-%m-%d %H:%M:%S')
+
+        # Debug-Informationen
+        print(f"Budget-Erstellungszeitstempel: {budget_creation_timestamp}")
+        print(f"Transaktionszeitstempel: {transaction_timestamp}")
+
+        if transaction_timestamp >= budget_creation_timestamp:
+            adjusted_budget = float(budget['amount']) + transaction_to_delete['amount']
+            db_con.execute(
+                'UPDATE budget SET amount = ? WHERE user_id = ? AND category = ?',
+                (adjusted_budget, user_id, transaction_to_delete['category'])
+            )
+            db_con.commit()
+            flash('Budget erfolgreich angepasst.')
+        else:
+            flash('Transaktion beeinflusst nicht das Budget.')
+
+
+
+
     
     db_con.commit()
     flash('Transaktion erfolgreich gelöscht!')
@@ -411,17 +449,47 @@ def budget():
     budgets = db_con.execute('SELECT * FROM budget WHERE user_id = ?', (user_id,)).fetchall()
 
     if request.method == 'POST':
-        name = request.form.get('budget_name')
+        category = request.form.get('budget_category')
         amount = request.form.get('budget_amount')
         end_date = request.form.get('budget_end_date')
 
-        db_con.execute('INSERT INTO budget (user_id, name, amount, end_date) VALUES (?, ?, ?, ?)', (user_id, name, amount, end_date))
-        db_con.commit()
+        existing_budget = db_con.execute('SELECT * FROM budget WHERE user_id = ? AND category = ?', (user_id, category)).fetchone()
 
-        flash(f'Budget "{name}" erfolgreich erstellt.')
-        return redirect(url_for('budget'))
+        if existing_budget:
+            flash(f'Es gibt bereits ein Budget für die Kategorie "{category}".')
+        else:
+            db_con.execute('INSERT INTO budget (user_id, category, amount, end_date) VALUES (?, ?, ?, ?)', (user_id, category, amount, end_date))
+            db_con.commit()
+
+            flash(f'Budget für Kategorie "{category}" erfolgreich erstellt.')
+
+        return redirect(url_for('homepage'))
 
     return render_template('budget.html', budgets=budgets)
+
+@app.route('/delete_budget/<int:id>', methods=['POST'])
+def delete_budget(id):
+    if 'user_id' not in session:
+        flash('Du musst eingeloggt sein, um ein Budget zu löschen.')
+        return redirect(url_for('login'))
+
+    user_id = session['user_id']
+    db_con = db.get_db_con()
+
+    # Make sure that the budget exists and belongs to the logged-in user
+    budget = db_con.execute('SELECT * FROM budget WHERE id = ? AND user_id = ?', (id, user_id)).fetchone()
+
+    if not budget:
+        flash('Budget nicht gefunden oder gehört nicht zum eingeloggten Benutzer.')
+    else:
+        # Delete the budget from the database
+        db_con.execute('DELETE FROM budget WHERE id = ?', (id,))
+        db_con.commit()
+
+        flash(f'Budget für Kategorie "{budget["category"]}" erfolgreich gelöscht.')
+
+    return redirect(url_for('homepage'))
+
 
 
 @app.route('/getChartData', methods=['POST'])

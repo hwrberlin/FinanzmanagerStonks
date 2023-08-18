@@ -1,6 +1,6 @@
 DROP TABLE IF EXISTS transactions;
 DROP TABLE IF EXISTS user;
-
+DROP TABLE IF EXISTS budget;
 
 CREATE TABLE user (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -26,7 +26,7 @@ CREATE TABLE budget (
     user_id INTEGER,
     amount DECIMAL(10,2),
     end_date DATE,
-    name TEXT,
+    category TEXT,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY(user_id) REFERENCES user(id)
 );
-

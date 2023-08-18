@@ -16,9 +16,6 @@
         <h3>Dein Kontostand: {{ current_balance }} €</h3>
     
         <div class="header-button-container">
-            <form action="{{ url_for('logout') }}">
-                <button class="header-button" type="submit">Stats</button>
-            </form>
                         <form action="{{ url_for('edit_profile') }}">
                 <button class="header-button" type="submit">Profil bearbeiten</button>
             </form>
@@ -54,6 +51,7 @@
         <table>
             <tr>
                 <th>Betrag</th>
+                <th>Kategorie</th>
                 <th>Beschreibung</th>
                 <th>Datum</th>
                 <th></th>
@@ -62,6 +60,7 @@
     {% if loop.index <= 5 %}
         <tr class="{{ 'einnahme' if transaction.transaction_type == 'einnahme' else 'ausgabe' }}">
             <td>{{ transaction.amount }}</td>
+            <td style="text-transform: capitalize;">{{ transaction.category }}</td>
             <td>{{ transaction.description }}</td>
             <td>{{ transaction.date }}</td>
             <td>
@@ -112,7 +111,6 @@
     </div>
     
     <div class="column" style="background-color:white;">
-
         <div class="budget-header">
             <h2>Budgets</h2>
             <form action="{{ url_for('budget') }}">
@@ -122,19 +120,31 @@
 
         <!-- Budgets anzeigen -->
         {% if budgets %}
-        <h3>Aktuelle Budgets</h3>
-        <ul>
+        <table>
+            <tr>
+                <th>Kategorie</th>
+                <th>Betrag</th>
+                <th>Bis zum Datum</th>
+                <th></th>
+            </tr>
             {% for budget in budgets %}
-            <li>
-                Name: {{ budget.name }} | Betrag: {{ budget.amount }}€ | Bis zum Datum: {{ budget.end_date }}
-            </li>
+            <tr>
+                <td style="text-transform: capitalize;">{{ budget.category }}</td>
+                <td>{{ budget.amount }}€</td>
+                <td>{{ budget.end_date }}</td>
+                <td>
+                    <form action="{{ url_for('delete_budget', id=budget.id) }}" method="post" class="delete-form">
+                        <input type="hidden" name="next_url" value="{{ url_for('homepage') }}">
+                        <input type="submit" value="Löschen" class="delete-button" onclick="return confirmDelete();">
+                    </form>
+                </td>
+            </tr>
             {% endfor %}
-        </ul>
+        </table>
         {% else %}
         <p>Kein Budget gesetzt.</p>
         {% endif %}
     </div>
-</div>
 
 <div class="footer">
     <p>made by Stonks</p>
