@@ -15,7 +15,7 @@ nav_order: 4
 
 **Methods:** `GET, POST`
 
-**Purpose:** to sign or log in.
+**Purpose:** to sign or log in. Here is a slideanimation that is created with following video: https://www.youtube.com/watch?v=L5WWrGMsnpw&ab_channel=GreatStack
 
 **Sample output:**
 
