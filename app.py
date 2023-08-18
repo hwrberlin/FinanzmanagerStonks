@@ -355,10 +355,15 @@ def edit_profile():
     db_con = db.get_db_con()
     user = db_con.execute('SELECT * FROM user WHERE id = ?', (user_id,)).fetchone()
 
-        # Überprüfen, ob der Benutzer sein Konto löschen möchte
+    # Überprüfen, ob der Benutzer sein Konto löschen möchte
     if request.form.get('delete_request'):
+        # Überprüfen, ob der Benutzer ein Administrator ist
+        if user['role'] == 'admin':
+            flash('Admin-Konten können nicht gelöscht werden.')
+            return redirect(url_for('edit_profile'))
 
         db_con.execute('DELETE FROM transactions WHERE user_id = ?', (user_id,))
+        db_con.execute('DELETE FROM budget WHERE user_id = ?', (user_id,))
         db_con.execute('DELETE FROM user WHERE id = ?', (user_id,))
         db_con.commit()
         session.clear()  
@@ -369,7 +374,7 @@ def edit_profile():
         new_username = request.form.get('new_username')
         password = request.form.get('password')
 
-#doppelt gesichert (html required und hier)
+        # doppelt gesichert (html required und hier)
         if not new_username: 
             flash('Neuer Benutzername muss eingegeben werden.')
             return render_template('edit_profile.html', user=user)
@@ -390,10 +395,9 @@ def edit_profile():
             db_con.commit()
             flash('Benutzername erfolgreich aktualisiert!')
             return redirect(url_for('homepage'))
-
-
     
     return render_template('edit_profile.html', user=user)
+
 
 
 @app.route('/insert/sample')
