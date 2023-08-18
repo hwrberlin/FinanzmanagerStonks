@@ -19,7 +19,7 @@ nav_order: 4
 
 **Sample output:**
 
-![get_lists() sample]()
+![login() sample](../assets/images/login.PNG)
 
 ---
 
@@ -33,7 +33,7 @@ nav_order: 4
 
 **Sample output:**
 
-![get_list_todos() sample](../assets/images/fswd-intro_02.png)
+![homepage() sample](../assets/images/homepage.PNG)
 
 ---
 
