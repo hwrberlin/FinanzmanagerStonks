@@ -338,6 +338,7 @@ def delete_user(user_id):
         return redirect(url_for('Steuerung'))
     
     db_con.execute('DELETE FROM transactions WHERE user_id = ?', (user_id,))
+    db_con.execute('DELETE FROM budget WHERE user_id = ?', (user_id,))
     db_con.execute('DELETE FROM user WHERE id = ?', (user_id,))
     db_con.commit()
 
